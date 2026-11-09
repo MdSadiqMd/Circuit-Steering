@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# project: run outputs, model caches and CircuitKIT's own logs/ and cache/
+.cache/
+cache/
+logs/
+runs/
+runs_*/
+*.safetensors
