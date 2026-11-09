@@ -1,0 +1,67 @@
+# Single source of defaults. Every script loads this, then applies its own section and CLI overrides (key=value).
+model: CohereLabs/tiny-aya-global
+revision: main
+dtype: bfloat16
+device: mps
+memory_budget_gb: 30          # hard ceiling granted by the owner; memwatch pauses/aborts above it
+seeds: [0, 1, 2]
+random_draws: 5
+languages: [en, hi, ar, fr, sw]
+chat_format: minimal          # minimal | full ; see docs/notes.md 2026-11-02 "Chat template"
+out_dir: runs
+cache_dir: .cache
+
+discovery:
+  algorithm: eap-ig
+  ig_steps: 5
+  n_examples: 64
+  batch_size: 4
+  level: node
+  scope: both
+  top_fraction: 0.10          # circuit = top 10 % of (heads + MLPs) by |score|; faithfulness curve covers 1..30 %
+
+faithfulness:
+  n_examples: 96
+  curve_n_examples: 48         # the size curve is 12 extra pillar runs; measured cost in docs/notes.md
+  batch_size: 4                # 8 OOMed at the 30 GB cap inside the stability re-discovery (b1_en seed 1)
+  n_stability_runs: 3
+  n_random_draws: 5
+  curve_fractions: [0.01, 0.02, 0.05, 0.10, 0.20, 0.30]
+  curve_tasks: [b1_en, b2_en]  # curve + stability for the two target circuits; bystanders get the pillars only
+
+interventions:
+  conditions: [circuit, random, inverse, taylor, unrestricted]
+  steering:
+    main_multiplier: 0.5        # main cell = 0.5 × the norm-matched base coefficient (smoke at 1.0 doubled perplexity)
+    coefficients: [0.25, 0.5, 1.0, 2.0]   # sweep cells "cond@mult" share the vectors; used for efficacy-matched comparison
+    max_norm_match_factor: 20  # cap on the coefficient used to norm-match a condition with tiny vectors
+  lora:
+    rank: 8
+    alpha: 16
+    lr: 2.0e-4
+    steps: 60
+    batch_tokens: 2048
+  editing:
+    extra_conditions: [circuit_deep]   # exploratory: circuit's top MLP outside layers 0-3 (see preregistration)
+    method: memit
+    cov_n_samples: 1000
+    n_prefixes: 2              # 5 in CircuitKIT; each retained prefix graph costs ~2.4 GB in fp32 (docs/notes.md)
+
+audit:                         # n per family; ~7 min per cell on this machine (docs/notes.md timings)
+  l1: {n_neighbourhood: 60, n_paraphrase: 40, n_mmlu: 60, n_ifeval: 30, n_gsm8k: 30, n_wikitext: 30}
+  l2: {n_harmful: 40, n_benign: 40}
+  l3: {n_per_language: 40}
+  l4: {n_examples: 32, batch_size: 2, ig_steps: 3, extra_tasks: [ioi_fixed]}   # batch 4 OOMed on the langid_en base edges; extra_tasks: attributed per cell next to the target and bystanders (A16: ioi_fixed replaces the built-in ioi in the analysis)
+  l5: {n_never_edited: 100}
+  max_new_tokens: 48
+  cells_per_process: 12       # run_audit.py exits 3 after this many new cells (MPS allocator growth, A18 B2 OOM at cell 16); chains loop on it
+
+behaviour:
+  b2_category: cyber          # chosen after data/b2_baseline.py; frozen in docs/preregistration.md
+  b1_target_relations: [capital, country, language, currency, head_of_state, head_of_government]
+
+grid:                          # overridden on the command line: grid.behaviour=b1 grid.intervention=edit
+  behaviour: b1
+  intervention: edit
+  max_facts: null              # smoke runs only
+  cells_per_process: 3         # MPS allocator grew ~5 GB per LoRA cell; the shell loop re-invokes until done (exit 3 = more work)
