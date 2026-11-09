@@ -224,5 +224,4 @@ __marimo__/
 cache/
 logs/
 runs/
-runs_*/
 *.safetensors
