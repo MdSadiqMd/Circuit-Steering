@@ -1,0 +1,32 @@
+{
+  "en": {
+    "rows": 1502,
+    "pairs": 1493,
+    "dropped_no_partner": 9,
+    "mean_tokens": 26.0
+  },
+  "hi": {
+    "rows": 1502,
+    "pairs": 1490,
+    "dropped_no_partner": 12,
+    "mean_tokens": 32.1
+  },
+  "ar": {
+    "rows": 1502,
+    "pairs": 1489,
+    "dropped_no_partner": 13,
+    "mean_tokens": 24.7
+  },
+  "fr": {
+    "rows": 1502,
+    "pairs": 1485,
+    "dropped_no_partner": 17,
+    "mean_tokens": 30.2
+  },
+  "sw": {
+    "rows": 1502,
+    "pairs": 1487,
+    "dropped_no_partner": 15,
+    "mean_tokens": 31.0
+  }
+}
