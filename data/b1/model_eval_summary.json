@@ -1,0 +1,179 @@
+{
+  "en": {
+    "capital": {
+      "acc": 0.973,
+      "n": 186
+    },
+    "continent": {
+      "acc": 0.894,
+      "n": 189
+    },
+    "language": {
+      "acc": 0.962,
+      "n": 106
+    },
+    "currency": {
+      "acc": 0.929,
+      "n": 14
+    },
+    "country": {
+      "acc": 0.958,
+      "n": 780
+    },
+    "head_of_state": {
+      "acc": 0.39,
+      "n": 141
+    },
+    "head_of_government": {
+      "acc": 0.407,
+      "n": 86
+    },
+    "all": {
+      "acc": 0.867,
+      "n": 1502
+    },
+    "eap_known_pairs": 1292
+  },
+  "hi": {
+    "capital": {
+      "acc": 0.651,
+      "n": 186
+    },
+    "continent": {
+      "acc": 0.958,
+      "n": 189
+    },
+    "language": {
+      "acc": 0.594,
+      "n": 106
+    },
+    "currency": {
+      "acc": 0.429,
+      "n": 14
+    },
+    "country": {
+      "acc": 0.671,
+      "n": 780
+    },
+    "head_of_state": {
+      "acc": 0.135,
+      "n": 141
+    },
+    "head_of_government": {
+      "acc": 0.14,
+      "n": 86
+    },
+    "all": {
+      "acc": 0.616,
+      "n": 1502
+    },
+    "eap_known_pairs": 915
+  },
+  "ar": {
+    "capital": {
+      "acc": 0.747,
+      "n": 186
+    },
+    "continent": {
+      "acc": 0.979,
+      "n": 189
+    },
+    "language": {
+      "acc": 0.877,
+      "n": 106
+    },
+    "currency": {
+      "acc": 0.429,
+      "n": 14
+    },
+    "country": {
+      "acc": 0.695,
+      "n": 780
+    },
+    "head_of_state": {
+      "acc": 0.191,
+      "n": 141
+    },
+    "head_of_government": {
+      "acc": 0.116,
+      "n": 86
+    },
+    "all": {
+      "acc": 0.667,
+      "n": 1502
+    },
+    "eap_known_pairs": 994
+  },
+  "fr": {
+    "capital": {
+      "acc": 0.919,
+      "n": 186
+    },
+    "continent": {
+      "acc": 0.984,
+      "n": 189
+    },
+    "language": {
+      "acc": 0.858,
+      "n": 106
+    },
+    "currency": {
+      "acc": 0.857,
+      "n": 14
+    },
+    "country": {
+      "acc": 0.918,
+      "n": 780
+    },
+    "head_of_state": {
+      "acc": 0.326,
+      "n": 141
+    },
+    "head_of_government": {
+      "acc": 0.326,
+      "n": 86
+    },
+    "all": {
+      "acc": 0.832,
+      "n": 1502
+    },
+    "eap_known_pairs": 1238
+  },
+  "sw": {
+    "capital": {
+      "acc": 0.796,
+      "n": 186
+    },
+    "continent": {
+      "acc": 0.852,
+      "n": 189
+    },
+    "language": {
+      "acc": 0.245,
+      "n": 106
+    },
+    "currency": {
+      "acc": 0.571,
+      "n": 14
+    },
+    "country": {
+      "acc": 0.523,
+      "n": 780
+    },
+    "head_of_state": {
+      "acc": 0.255,
+      "n": 141
+    },
+    "head_of_government": {
+      "acc": 0.326,
+      "n": 86
+    },
+    "all": {
+      "acc": 0.543,
+      "n": 1502
+    },
+    "eap_known_pairs": 802
+  },
+  "n_false_en": 180,
+  "n_wrong_en_any_confidence": 200
+}

@@ -1,0 +1,323 @@
+{
+  "stage": "filter_model",
+  "git_sha": "416938abb2a17d31ca8f9931a49d654fd124d703",
+  "uv_lock_sha256": "aee5fd2349d80c29b244f258de7dae18cfdfd7dd22a9ec5049a826eb4b6d2b25",
+  "model": "CohereLabs/tiny-aya-global",
+  "model_revision": "af89d219b53ed9b13b8a4645f9c8028973510324",
+  "seed": null,
+  "dtype": "bfloat16",
+  "device": "mps",
+  "torch": "2.15.0",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "config": {
+    "model": "CohereLabs/tiny-aya-global",
+    "revision": "main",
+    "dtype": "bfloat16",
+    "device": "mps",
+    "memory_budget_gb": 30,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "random_draws": 5,
+    "languages": [
+      "en",
+      "hi",
+      "ar",
+      "fr",
+      "sw"
+    ],
+    "chat_format": "minimal",
+    "out_dir": "runs",
+    "cache_dir": ".cache",
+    "discovery": {
+      "algorithm": "eap-ig",
+      "ig_steps": 5,
+      "n_examples": 64,
+      "batch_size": 4,
+      "level": "node",
+      "scope": "both",
+      "top_fraction": 0.1
+    },
+    "faithfulness": {
+      "n_examples": 128,
+      "batch_size": 8,
+      "n_stability_runs": 3,
+      "n_random_draws": 5,
+      "curve_fractions": [
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.2,
+        0.3
+      ]
+    },
+    "interventions": {
+      "conditions": [
+        "circuit",
+        "random",
+        "inverse",
+        "taylor",
+        "unrestricted"
+      ],
+      "steering": {
+        "coefficients": [
+          0.5,
+          1.0,
+          2.0,
+          4.0
+        ]
+      },
+      "lora": {
+        "rank": 8,
+        "alpha": 16,
+        "lr": 0.0002,
+        "steps": 60,
+        "batch_tokens": 2048
+      },
+      "editing": {
+        "method": "rome",
+        "cov_n_samples": 1000,
+        "n_prefixes": 5
+      }
+    },
+    "audit": {
+      "l1": {
+        "n_neighbourhood": 100,
+        "n_paraphrase": 100,
+        "n_mmlu": 100,
+        "n_ifeval": 50,
+        "n_gsm8k": 50,
+        "n_wikitext": 40
+      },
+      "l2": {
+        "n_harmful": 50,
+        "n_benign": 50
+      },
+      "l3": {
+        "n_per_language": 50
+      },
+      "l4": {
+        "n_examples": 32,
+        "batch_size": 4,
+        "ig_steps": 3
+      },
+      "l5": {
+        "n_never_edited": 100
+      },
+      "max_new_tokens": 48
+    },
+    "behaviour": {
+      "b2_category": "cyber",
+      "b1_target_relations": [
+        "capital",
+        "country",
+        "language",
+        "currency",
+        "head_of_state",
+        "head_of_government"
+      ]
+    },
+    "grid": {
+      "behaviour": "b1",
+      "intervention": "edit",
+      "max_facts": null
+    },
+    "batch_size": 16
+  },
+  "inputs": {
+    "/Users/sadiq/Developer/circuit-steering/data/b1/prompts_en.jsonl": "9d4a8c7bd40d1a1f0ac7ace43bd4141332983747c6443d8f678c75d9adddb0c4",
+    "/Users/sadiq/Developer/circuit-steering/data/b1/prompts_hi.jsonl": "aa9dbabb08e575748e6292578f643e162e7e83a32ad838389386babc30b9d330",
+    "/Users/sadiq/Developer/circuit-steering/data/b1/prompts_ar.jsonl": "d5eca714bef4ef0c79c4bcf6f94ca324302e86002fce55a88bdcf4627a869344",
+    "/Users/sadiq/Developer/circuit-steering/data/b1/prompts_fr.jsonl": "4b46a3143a9209f86631d44f4916d11b07883aad9846674acc84e0d97e8f5f5c",
+    "/Users/sadiq/Developer/circuit-steering/data/b1/prompts_sw.jsonl": "df9a65993b95a3a7183b36c12fc3cc5dcbefb6b406d38471e1d2504ca438259a"
+  },
+  "outputs": {},
+  "wall_time_s": 415.3,
+  "memory": {
+    "peak_gb": 9.3,
+    "budget_gb": 30,
+    "pauses": 0
+  },
+  "summary": {
+    "en": {
+      "capital": {
+        "acc": 0.973,
+        "n": 186
+      },
+      "continent": {
+        "acc": 0.894,
+        "n": 189
+      },
+      "language": {
+        "acc": 0.962,
+        "n": 106
+      },
+      "currency": {
+        "acc": 0.929,
+        "n": 14
+      },
+      "country": {
+        "acc": 0.958,
+        "n": 780
+      },
+      "head_of_state": {
+        "acc": 0.39,
+        "n": 141
+      },
+      "head_of_government": {
+        "acc": 0.407,
+        "n": 86
+      },
+      "all": {
+        "acc": 0.867,
+        "n": 1502
+      },
+      "eap_known_pairs": 1292
+    },
+    "hi": {
+      "capital": {
+        "acc": 0.651,
+        "n": 186
+      },
+      "continent": {
+        "acc": 0.958,
+        "n": 189
+      },
+      "language": {
+        "acc": 0.594,
+        "n": 106
+      },
+      "currency": {
+        "acc": 0.429,
+        "n": 14
+      },
+      "country": {
+        "acc": 0.671,
+        "n": 780
+      },
+      "head_of_state": {
+        "acc": 0.135,
+        "n": 141
+      },
+      "head_of_government": {
+        "acc": 0.14,
+        "n": 86
+      },
+      "all": {
+        "acc": 0.616,
+        "n": 1502
+      },
+      "eap_known_pairs": 915
+    },
+    "ar": {
+      "capital": {
+        "acc": 0.747,
+        "n": 186
+      },
+      "continent": {
+        "acc": 0.979,
+        "n": 189
+      },
+      "language": {
+        "acc": 0.877,
+        "n": 106
+      },
+      "currency": {
+        "acc": 0.429,
+        "n": 14
+      },
+      "country": {
+        "acc": 0.695,
+        "n": 780
+      },
+      "head_of_state": {
+        "acc": 0.191,
+        "n": 141
+      },
+      "head_of_government": {
+        "acc": 0.116,
+        "n": 86
+      },
+      "all": {
+        "acc": 0.667,
+        "n": 1502
+      },
+      "eap_known_pairs": 994
+    },
+    "fr": {
+      "capital": {
+        "acc": 0.919,
+        "n": 186
+      },
+      "continent": {
+        "acc": 0.984,
+        "n": 189
+      },
+      "language": {
+        "acc": 0.858,
+        "n": 106
+      },
+      "currency": {
+        "acc": 0.857,
+        "n": 14
+      },
+      "country": {
+        "acc": 0.918,
+        "n": 780
+      },
+      "head_of_state": {
+        "acc": 0.326,
+        "n": 141
+      },
+      "head_of_government": {
+        "acc": 0.326,
+        "n": 86
+      },
+      "all": {
+        "acc": 0.832,
+        "n": 1502
+      },
+      "eap_known_pairs": 1238
+    },
+    "sw": {
+      "capital": {
+        "acc": 0.796,
+        "n": 186
+      },
+      "continent": {
+        "acc": 0.852,
+        "n": 189
+      },
+      "language": {
+        "acc": 0.245,
+        "n": 106
+      },
+      "currency": {
+        "acc": 0.571,
+        "n": 14
+      },
+      "country": {
+        "acc": 0.523,
+        "n": 780
+      },
+      "head_of_state": {
+        "acc": 0.255,
+        "n": 141
+      },
+      "head_of_government": {
+        "acc": 0.326,
+        "n": 86
+      },
+      "all": {
+        "acc": 0.543,
+        "n": 1502
+      },
+      "eap_known_pairs": 802
+    },
+    "n_false_en": 180,
+    "n_wrong_en_any_confidence": 200
+  }
+}
