@@ -1,0 +1,317 @@
+{
+ "flagged": [
+  "b1_steer_inverse_s0",
+  "b1_steer_random_s0",
+  "b1_steer_random_s3",
+  "b1_steer_random_s4",
+  "b2_steer_inverse_s1"
+ ],
+ "cells": {
+  "b1_steer_circuit_s0": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 3.6505208015441895,
+   "direction_effect": 0.02786458283662796,
+   "steer_effect": -0.07916666567325592,
+   "direction_over_full": 0.007633043160537832,
+   "illusion_flag": false
+  },
+  "b1_steer_circuit_s1": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 4.355208396911621,
+   "direction_effect": 0.12395833432674408,
+   "steer_effect": -0.01666666753590107,
+   "direction_over_full": 0.0284620902215944,
+   "illusion_flag": false
+  },
+  "b1_steer_circuit_s2": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 2.3770833015441895,
+   "direction_effect": 0.06692708283662796,
+   "steer_effect": -0.02708333358168602,
+   "direction_over_full": 0.028155127249074995,
+   "illusion_flag": false
+  },
+  "b1_steer_inverse_s0": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 0.0007812500116415322,
+   "direction_effect": -0.05130208283662796,
+   "steer_effect": -0.29635417461395264,
+   "direction_over_full": -65.66666505237423,
+   "illusion_flag": true
+  },
+  "b1_steer_inverse_s1": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 0.1901041716337204,
+   "direction_effect": 0.09947916865348816,
+   "steer_effect": 0.12291666865348816,
+   "direction_over_full": 0.5232876680116088,
+   "illusion_flag": false
+  },
+  "b1_steer_inverse_s2": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": -0.09375,
+   "direction_effect": -0.03750000149011612,
+   "steer_effect": -0.22343750298023224,
+   "direction_over_full": 0.40000001589457196,
+   "illusion_flag": false
+  },
+  "b1_steer_random_s0": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 0.42721354961395264,
+   "direction_effect": -0.2552083432674408,
+   "steer_effect": -0.19322916865348816,
+   "direction_over_full": -0.597378860052677,
+   "illusion_flag": true
+  },
+  "b1_steer_random_s1": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 1.5187499523162842,
+   "direction_effect": 0.05052083358168602,
+   "steer_effect": -0.05364583432674408,
+   "direction_over_full": 0.0332647474356364,
+   "illusion_flag": false
+  },
+  "b1_steer_random_s2": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 0.8723958134651184,
+   "direction_effect": 0.12395833432674408,
+   "steer_effect": 0.07708333432674408,
+   "direction_over_full": 0.14208955661351347,
+   "illusion_flag": false
+  },
+  "b1_steer_random_s3": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 1.1317708492279053,
+   "direction_effect": -0.2747395932674408,
+   "steer_effect": -0.296875,
+   "direction_over_full": -0.2427519611897305,
+   "illusion_flag": true
+  },
+  "b1_steer_random_s4": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 1.014062523841858,
+   "direction_effect": -0.2567708194255829,
+   "steer_effect": -0.16718749701976776,
+   "direction_over_full": -0.25321004710122397,
+   "illusion_flag": true
+  },
+  "b1_steer_taylor_s0": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 3.0390625,
+   "direction_effect": 0.24635416269302368,
+   "steer_effect": -0.0002604166802484542,
+   "direction_over_full": 0.08106255224860419,
+   "illusion_flag": false
+  },
+  "b1_steer_taylor_s1": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 3.3988280296325684,
+   "direction_effect": 0.5132812261581421,
+   "steer_effect": 0.2671875059604645,
+   "direction_over_full": 0.15101712169109968,
+   "illusion_flag": false
+  },
+  "b1_steer_taylor_s2": {
+   "n_prompts": 60,
+   "n_nodes": 62,
+   "full_effect": 2.8826823234558105,
+   "direction_effect": 0.6205729246139526,
+   "steer_effect": 0.23281249403953552,
+   "direction_over_full": 0.2152762097871398,
+   "illusion_flag": false
+  },
+  "b1_steer_unrestricted_s0": {
+   "n_prompts": 60,
+   "n_nodes": 612,
+   "full_effect": 2.9867186546325684,
+   "direction_effect": 0.6190103888511658,
+   "steer_effect": -0.37812501192092896,
+   "direction_over_full": 0.2072543350847747,
+   "illusion_flag": false
+  },
+  "b1_steer_unrestricted_s1": {
+   "n_prompts": 60,
+   "n_nodes": 612,
+   "full_effect": 3.2822265625,
+   "direction_effect": 1.734375,
+   "steer_effect": -0.2541666626930237,
+   "direction_over_full": 0.5284141624516513,
+   "illusion_flag": false
+  },
+  "b1_steer_unrestricted_s2": {
+   "n_prompts": 60,
+   "n_nodes": 612,
+   "full_effect": 2.428971290588379,
+   "direction_effect": 1.7098958492279053,
+   "steer_effect": -0.06848958134651184,
+   "direction_over_full": 0.703958855278899,
+   "illusion_flag": false
+  },
+  "b2_steer_circuit_s0": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 8.287946701049805,
+   "direction_effect": 5.4296875,
+   "steer_effect": 4.0223212242126465,
+   "direction_over_full": 0.6551306006000547,
+   "illusion_flag": false
+  },
+  "b2_steer_circuit_s1": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 8.401785850524902,
+   "direction_effect": 5.410714149475098,
+   "steer_effect": 4.0535712242126465,
+   "direction_over_full": 0.6439957225447567,
+   "illusion_flag": false
+  },
+  "b2_steer_circuit_s2": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 8.252232551574707,
+   "direction_effect": 5.479910850524902,
+   "steer_effect": 4.4620537757873535,
+   "direction_over_full": 0.6640519176206704,
+   "illusion_flag": false
+  },
+  "b2_steer_inverse_s0": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 0.515625,
+   "direction_effect": 0.40625,
+   "steer_effect": 0.7723214030265808,
+   "direction_over_full": 0.7878787878787878,
+   "illusion_flag": false
+  },
+  "b2_steer_inverse_s1": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 0.0647321417927742,
+   "direction_effect": -0.0825892835855484,
+   "steer_effect": 0.1830357164144516,
+   "direction_over_full": -1.2758620570587629,
+   "illusion_flag": true
+  },
+  "b2_steer_inverse_s2": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 1.6629464626312256,
+   "direction_effect": 0.9040178656578064,
+   "steer_effect": 0.5491071343421936,
+   "direction_over_full": 0.5436241550599342,
+   "illusion_flag": false
+  },
+  "b2_steer_random_s0": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 1.75,
+   "direction_effect": 0.625,
+   "steer_effect": 0.7075892686843872,
+   "direction_over_full": 0.35714285714285715,
+   "illusion_flag": false
+  },
+  "b2_steer_random_s1": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": -0.9107142686843872,
+   "direction_effect": -0.7645089030265808,
+   "steer_effect": -0.4397321343421936,
+   "direction_over_full": 0.8394607719619746,
+   "illusion_flag": false
+  },
+  "b2_steer_random_s2": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 1.9598214626312256,
+   "direction_effect": 1.734375,
+   "steer_effect": 3.6171875,
+   "direction_over_full": 0.8849658160552315,
+   "illusion_flag": false
+  },
+  "b2_steer_random_s3": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 2.5357143878936768,
+   "direction_effect": 2.013392925262451,
+   "steer_effect": 5.2120537757873535,
+   "direction_over_full": 0.7940140793754384,
+   "illusion_flag": false
+  },
+  "b2_steer_random_s4": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 2.3392856121063232,
+   "direction_effect": 2.2388393878936768,
+   "steer_effect": 1.796875,
+   "direction_over_full": 0.9570611541862118,
+   "illusion_flag": false
+  },
+  "b2_steer_taylor_s0": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 7.591517925262451,
+   "direction_effect": 4.878348350524902,
+   "steer_effect": 2.857142925262451,
+   "direction_over_full": 0.6426051283223769,
+   "illusion_flag": false
+  },
+  "b2_steer_taylor_s1": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 7.591517925262451,
+   "direction_effect": 4.878348350524902,
+   "steer_effect": 2.857142925262451,
+   "direction_over_full": 0.6426051283223769,
+   "illusion_flag": false
+  },
+  "b2_steer_taylor_s2": {
+   "n_prompts": 28,
+   "n_nodes": 62,
+   "full_effect": 7.591517925262451,
+   "direction_effect": 4.878348350524902,
+   "steer_effect": 2.857142925262451,
+   "direction_over_full": 0.6426051283223769,
+   "illusion_flag": false
+  },
+  "b2_steer_unrestricted_s0": {
+   "n_prompts": 28,
+   "n_nodes": 612,
+   "full_effect": 10.283482551574707,
+   "direction_effect": 9.598214149475098,
+   "steer_effect": 7.660714149475098,
+   "direction_over_full": 0.9333622244543339,
+   "illusion_flag": false
+  },
+  "b2_steer_unrestricted_s1": {
+   "n_prompts": 28,
+   "n_nodes": 612,
+   "full_effect": 10.283482551574707,
+   "direction_effect": 9.598214149475098,
+   "steer_effect": 7.660714149475098,
+   "direction_over_full": 0.9333622244543339,
+   "illusion_flag": false
+  },
+  "b2_steer_unrestricted_s2": {
+   "n_prompts": 28,
+   "n_nodes": 612,
+   "full_effect": 10.283482551574707,
+   "direction_effect": 9.598214149475098,
+   "steer_effect": 7.660714149475098,
+   "direction_over_full": 0.9333622244543339,
+   "illusion_flag": false
+  }
+ }
+}

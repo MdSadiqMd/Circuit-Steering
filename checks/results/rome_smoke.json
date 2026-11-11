@@ -1,0 +1,32 @@
+{
+ "model": "CohereLabs/tiny-aya-global",
+ "method": "rome",
+ "fact": {
+  "relation": "head_of_government",
+  "subject": "Paraguay",
+  "target": "Santiago Pe\u00f1a Palacios"
+ },
+ "p_target_before": 1.6674035578034818e-05,
+ "greedy_before": "Mar\u00eda \u00d1\u00e1nder<|END_RESPONSE|><EOS_TOKEN><|END_RESPONSE|><EOS_TOKEN><|END_RESPONSE|> p",
+ "editor_result": {
+  "success": false,
+  "confidence_before": 0.0,
+  "confidence_after": 0.0,
+  "error_message": "ROME edit failed: '<' not supported between instances of 'NoneType' and 'int'"
+ },
+ "direct_layer": 5,
+ "direct_result": {
+  "success": true,
+  "confidence_before": 1.6674358920054396e-05,
+  "confidence_after": 0.9930048426105692,
+  "error_message": null
+ },
+ "wall_s": 86.7,
+ "p_target_after": 0.9930048584938049,
+ "greedy_after": " Santiago Pe\u00f1a <|END_RESPONSE|><EOS_TOKEN>e<|END_RESPONSE|><EOS_TOKEN><|END_RESPONSE|>in<|END_RESPONSE|>",
+ "edited_layers": {
+  "5": 4.330904006958008
+ },
+ "p_target_restored": 1.6674035578034818e-05,
+ "passed": true
+}
