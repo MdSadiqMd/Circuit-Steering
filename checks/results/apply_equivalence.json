@@ -1,0 +1,83 @@
+{
+ "lora": {
+  "delta_hf": 19.65625,
+  "delta_tl": 19.78125,
+  "hf_vs_tl": 0.7158203125,
+  "cosine": 0.998384416103363
+ },
+ "lora_kv_gate_up": {
+  "delta_hf": 25.5,
+  "delta_tl": 25.75,
+  "hf_vs_tl": 0.703125,
+  "cosine": 0.999717116355896
+ },
+ "edit": {
+  "delta_hf": 10.8046875,
+  "delta_tl": 10.9609375,
+  "hf_vs_tl": 0.34375,
+  "cosine": 0.9992525577545166
+ },
+ "steer": {
+  "delta_hf": 8.453125,
+  "delta_tl": 8.71875,
+  "hf_vs_tl": 0.296875,
+  "cosine": 0.9990378618240356
+ },
+ "steer_resid": {
+  "delta_hf": 7.125,
+  "delta_tl": 7.203125,
+  "hf_vs_tl": 0.375,
+  "cosine": 0.9970962405204773
+ },
+ "real_b1_lora_circuit_s0": {
+  "delta_hf": 7.25,
+  "delta_tl": 7.15625,
+  "hf_vs_tl": 0.234375,
+  "cosine": 0.9983031749725342,
+  "merged_vs_hook": {
+   "delta_hf": 7.1875,
+   "delta_tl": 7.25,
+   "hf_vs_tl": 0.25,
+   "cosine": 0.99912428855896,
+   "note": "delta_hf = bf16-merged weights (pre-A18), delta_tl = hook"
+  }
+ },
+ "module_exactness": {
+  "n_modules": 96,
+  "max_hook_vs_peft_ulps": 0.0,
+  "max_hook_vs_fp32_ulps": 0.8354425525117818,
+  "max_merged_vs_fp32_ulps": 0.49956339903193625,
+  "max_merged_vs_peft_ulps": 0.9309610566197043,
+  "mean_merged_entries_differ": 0.24237458716379479,
+  "term_rel_l2_range": [
+   0.0011331194546073675,
+   0.07949085533618927
+  ]
+ },
+ "real_b1_lora_unrestricted_s0": {
+  "delta_hf": 19.71875,
+  "delta_tl": 19.6875,
+  "hf_vs_tl": 0.3125,
+  "cosine": 0.9994462728500366,
+  "merged_vs_hook": {
+   "delta_hf": 19.46875,
+   "delta_tl": 19.71875,
+   "hf_vs_tl": 0.5,
+   "cosine": 0.9994783997535706,
+   "note": "delta_hf = bf16-merged weights (pre-A18), delta_tl = hook"
+  }
+ },
+ "real_b2_lora_random_s0": {
+  "delta_hf": 5.75,
+  "delta_tl": 5.6875,
+  "hf_vs_tl": 0.25,
+  "cosine": 0.9970893859863281,
+  "merged_vs_hook": {
+   "delta_hf": 5.75,
+   "delta_tl": 5.75,
+   "hf_vs_tl": 0.15625,
+   "cosine": 0.9989830255508423,
+   "note": "delta_hf = bf16-merged weights (pre-A18), delta_tl = hook"
+  }
+ }
+}
