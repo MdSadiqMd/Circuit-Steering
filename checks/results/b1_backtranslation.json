@@ -1,0 +1,539 @@
+{
+ "summary": {
+  "hi": {
+   "mean_bt_f1": 0.583,
+   "flagged": [
+    "paraphrase:capital",
+    "paraphrase:continent",
+    "paraphrase:currency"
+   ]
+  },
+  "ar": {
+   "mean_bt_f1": 0.691,
+   "flagged": [
+    "paraphrase:head_of_government"
+   ]
+  },
+  "fr": {
+   "mean_bt_f1": 0.602,
+   "flagged": [
+    "paraphrase:capital",
+    "paraphrase:continent",
+    "paraphrase:currency"
+   ]
+  },
+  "sw": {
+   "mean_bt_f1": 0.692,
+   "flagged": [
+    "paraphrase:continent",
+    "paraphrase:currency"
+   ]
+  }
+ },
+ "items": [
+  {
+   "form": "question",
+   "relation": "capital",
+   "lang": "hi",
+   "text": "निम्नलिखित देश की राजधानी कौन सी है: सेंट लूसिया? उत्तर में केवल शहर का नाम लिखें।",
+   "reference_en": "What is the capital city of the following country: Saint Lucia? Answer with only the city name.",
+   "back_en": "What is the capital of the following country: Saint Lucia?",
+   "bt_f1": 0.741
+  },
+  {
+   "form": "question",
+   "relation": "capital",
+   "lang": "ar",
+   "text": "ما هي عاصمة الدولة التالية: سانت لوسيا؟ أجب باسم المدينة فقط.",
+   "reference_en": "What is the capital city of the following country: Saint Lucia? Answer with only the city name.",
+   "back_en": "What is the capital of the following country: Saint Lucia? Answer with the name of the city only.",
+   "bt_f1": 0.914
+  },
+  {
+   "form": "question",
+   "relation": "capital",
+   "lang": "fr",
+   "text": "Quelle est la capitale du pays suivant : Sainte-Lucie ? Réponds uniquement par le nom de la ville.",
+   "reference_en": "What is the capital city of the following country: Saint Lucia? Answer with only the city name.",
+   "back_en": "What is the capital of the following country: Saint Lucia?",
+   "bt_f1": 0.741
+  },
+  {
+   "form": "question",
+   "relation": "capital",
+   "lang": "sw",
+   "text": "Mji mkuu wa nchi ifuatayo ni upi: Saint Lucia? Jibu kwa jina la mji pekee.",
+   "reference_en": "What is the capital city of the following country: Saint Lucia? Answer with only the city name.",
+   "back_en": "What is the capital city of the following country: Saint Lucia? Answer with the name of the city only.",
+   "bt_f1": 0.944
+  },
+  {
+   "form": "question",
+   "relation": "continent",
+   "lang": "hi",
+   "text": "निम्नलिखित देश किस महाद्वीप में है: सेंट लूसिया? उत्तर में केवल महाद्वीप का नाम लिखें।",
+   "reference_en": "Which continent is the following country in: Saint Lucia? Answer with only the continent name.",
+   "back_en": "Which continent is the following country in: Saint Lucia?",
+   "bt_f1": 0.75
+  },
+  {
+   "form": "question",
+   "relation": "continent",
+   "lang": "ar",
+   "text": "في أي قارة تقع الدولة التالية: سانت لوسيا؟ أجب باسم القارة فقط.",
+   "reference_en": "Which continent is the following country in: Saint Lucia? Answer with only the continent name.",
+   "back_en": "Which continent is the following country located in: Saint Lucia? Answer with the continent only.",
+   "bt_f1": 0.933
+  },
+  {
+   "form": "question",
+   "relation": "continent",
+   "lang": "fr",
+   "text": "Sur quel continent se trouve le pays suivant : Sainte-Lucie ? Réponds uniquement par le nom du continent.",
+   "reference_en": "Which continent is the following country in: Saint Lucia? Answer with only the continent name.",
+   "back_en": "Which continent is the following country located on: Saint Lucia?",
+   "bt_f1": 0.64
+  },
+  {
+   "form": "question",
+   "relation": "continent",
+   "lang": "sw",
+   "text": "Nchi ifuatayo iko katika bara gani: Saint Lucia? Jibu kwa jina la bara pekee.",
+   "reference_en": "Which continent is the following country in: Saint Lucia? Answer with only the continent name.",
+   "back_en": "Which continent is the following country located on: Saint Lucia? Provide the name of the continent only.",
+   "bt_f1": 0.75
+  },
+  {
+   "form": "question",
+   "relation": "language",
+   "lang": "hi",
+   "text": "निम्नलिखित देश की आधिकारिक भाषा कौन सी है: सेंट लूसिया? उत्तर में केवल भाषा का नाम लिखें।",
+   "reference_en": "What is the official language of the following country: Saint Lucia? Answer with only the language name.",
+   "back_en": "What is the official language of the following country: Saint Lucia?",
+   "bt_f1": 0.786
+  },
+  {
+   "form": "question",
+   "relation": "language",
+   "lang": "ar",
+   "text": "ما هي اللغة الرسمية للدولة التالية: سانت لوسيا؟ أجب باسم اللغة فقط.",
+   "reference_en": "What is the official language of the following country: Saint Lucia? Answer with only the language name.",
+   "back_en": "What is the official language of the following country: Saint Lucia? Answer with the language name only.",
+   "bt_f1": 1.0
+  },
+  {
+   "form": "question",
+   "relation": "language",
+   "lang": "fr",
+   "text": "Quelle est la langue officielle du pays suivant : Sainte-Lucie ? Réponds uniquement par le nom de la langue.",
+   "reference_en": "What is the official language of the following country: Saint Lucia? Answer with only the language name.",
+   "back_en": "What is the official language of the following country: Saint Lucia?",
+   "bt_f1": 0.786
+  },
+  {
+   "form": "question",
+   "relation": "language",
+   "lang": "sw",
+   "text": "Lugha rasmi ya nchi ifuatayo ni ipi: Saint Lucia? Jibu kwa jina la lugha pekee.",
+   "reference_en": "What is the official language of the following country: Saint Lucia? Answer with only the language name.",
+   "back_en": "What is the official language of Saint Lucia?",
+   "bt_f1": 0.64
+  },
+  {
+   "form": "question",
+   "relation": "currency",
+   "lang": "hi",
+   "text": "निम्नलिखित देश की मुद्रा कौन सी है: सऊदी अरब? उत्तर में केवल मुद्रा का नाम लिखें।",
+   "reference_en": "What is the currency of the following country: Saudi Arabia? Answer with only the currency name.",
+   "back_en": "What is the currency of the following country: Saudi Arabia?",
+   "bt_f1": 0.769
+  },
+  {
+   "form": "question",
+   "relation": "currency",
+   "lang": "ar",
+   "text": "ما هي عملة الدولة التالية: السعودية؟ أجب باسم العملة فقط.",
+   "reference_en": "What is the currency of the following country: Saudi Arabia? Answer with only the currency name.",
+   "back_en": "What is the currency of the next country: Saudi Arabia?",
+   "bt_f1": 0.692
+  },
+  {
+   "form": "question",
+   "relation": "currency",
+   "lang": "fr",
+   "text": "Quelle est la monnaie du pays suivant : Arabie saoudite ? Réponds uniquement par le nom de la monnaie.",
+   "reference_en": "What is the currency of the following country: Saudi Arabia? Answer with only the currency name.",
+   "back_en": "What is the currency of the following country: Saudi Arabia?",
+   "bt_f1": 0.769
+  },
+  {
+   "form": "question",
+   "relation": "currency",
+   "lang": "sw",
+   "text": "Sarafu ya nchi ifuatayo ni ipi: Saudia? Jibu kwa jina la sarafu pekee.",
+   "reference_en": "What is the currency of the following country: Saudi Arabia? Answer with only the currency name.",
+   "back_en": "What is the currency of the following country: Saudi? Answer with the currency name only.",
+   "bt_f1": 0.968
+  },
+  {
+   "form": "question",
+   "relation": "country",
+   "lang": "hi",
+   "text": "निम्नलिखित शहर किस देश में है: लाहौर? उत्तर में केवल देश का नाम लिखें।",
+   "reference_en": "Which country is the following city in: Lahore? Answer with only the country name.",
+   "back_en": "Which country is the city of Lahore in?",
+   "bt_f1": 0.636
+  },
+  {
+   "form": "question",
+   "relation": "country",
+   "lang": "ar",
+   "text": "في أي دولة تقع المدينة التالية: لاهور؟ أجب باسم الدولة فقط.",
+   "reference_en": "Which country is the following city in: Lahore? Answer with only the country name.",
+   "back_en": "In which country is the city of Lahore located?",
+   "bt_f1": 0.609
+  },
+  {
+   "form": "question",
+   "relation": "country",
+   "lang": "fr",
+   "text": "Dans quel pays se trouve la ville suivante : Lahore ? Réponds uniquement par le nom du pays.",
+   "reference_en": "Which country is the following city in: Lahore? Answer with only the country name.",
+   "back_en": "What country is the city of Lahore located in?",
+   "bt_f1": 0.522
+  },
+  {
+   "form": "question",
+   "relation": "country",
+   "lang": "sw",
+   "text": "Mji ufuatao uko katika nchi gani: Lahore? Jibu kwa jina la nchi pekee.",
+   "reference_en": "Which country is the following city in: Lahore? Answer with only the country name.",
+   "back_en": "Which country is the following city in: Lahore? Answer with the name of the country only.",
+   "bt_f1": 0.933
+  },
+  {
+   "form": "question",
+   "relation": "head_of_state",
+   "lang": "hi",
+   "text": "निम्नलिखित देश का वर्तमान राष्ट्राध्यक्ष कौन है: अण्टीगुआ और बारबूडा? उत्तर में केवल व्यक्ति का नाम लिखें।",
+   "reference_en": "Who is the current head of state of the following country: Antigua and Barbuda? Answer with only the person's name.",
+   "back_en": "What is the current head of state of Antigua and Barbuda?",
+   "bt_f1": 0.625
+  },
+  {
+   "form": "question",
+   "relation": "head_of_state",
+   "lang": "ar",
+   "text": "من هو رئيس الدولة الحالي للدولة التالية: أنتيغوا وباربودا؟ أجب باسم الشخص فقط.",
+   "reference_en": "Who is the current head of state of the following country: Antigua and Barbuda? Answer with only the person's name.",
+   "back_en": "Who is the current head of state of the following country: Antigua and Barbuda? Answer with the person's name only.",
+   "bt_f1": 1.0
+  },
+  {
+   "form": "question",
+   "relation": "head_of_state",
+   "lang": "fr",
+   "text": "Qui est l'actuel chef d'État du pays suivant : Antigua-et-Barbuda ? Réponds uniquement par le nom de la personne.",
+   "reference_en": "Who is the current head of state of the following country: Antigua and Barbuda? Answer with only the person's name.",
+   "back_en": "Who is the current head of state of Antigua and Barbuda?",
+   "bt_f1": 0.688
+  },
+  {
+   "form": "question",
+   "relation": "head_of_state",
+   "lang": "sw",
+   "text": "Mkuu wa nchi wa sasa wa nchi ifuatayo ni nani: Antigua na Barbuda? Jibu kwa jina la mtu pekee.",
+   "reference_en": "Who is the current head of state of the following country: Antigua and Barbuda? Answer with only the person's name.",
+   "back_en": "**\"Who is the current head of state of the following country: Antigua and Barbuda? Answer with the name of a single person.\"**",
+   "bt_f1": 0.884
+  },
+  {
+   "form": "question",
+   "relation": "head_of_government",
+   "lang": "hi",
+   "text": "निम्नलिखित देश का वर्तमान शासनाध्यक्ष कौन है: गाम्बिया? उत्तर में केवल व्यक्ति का नाम लिखें।",
+   "reference_en": "Who is the current head of government of the following country: The Gambia? Answer with only the person's name.",
+   "back_en": "Who is the current head of state of The Gambia?",
+   "bt_f1": 0.6
+  },
+  {
+   "form": "question",
+   "relation": "head_of_government",
+   "lang": "ar",
+   "text": "من هو رئيس الحكومة الحالي للدولة التالية: غامبيا؟ أجب باسم الشخص فقط.",
+   "reference_en": "Who is the current head of government of the following country: The Gambia? Answer with only the person's name.",
+   "back_en": "Who is the current Prime Minister of the country of Gambia?",
+   "bt_f1": 0.581
+  },
+  {
+   "form": "question",
+   "relation": "head_of_government",
+   "lang": "fr",
+   "text": "Qui est l'actuel chef du gouvernement du pays suivant : Gambie ? Réponds uniquement par le nom de la personne.",
+   "reference_en": "Who is the current head of government of the following country: The Gambia? Answer with only the person's name.",
+   "back_en": "Who is the current head of government of the following country: Gambia?",
+   "bt_f1": 0.75
+  },
+  {
+   "form": "question",
+   "relation": "head_of_government",
+   "lang": "sw",
+   "text": "Mkuu wa serikali wa sasa wa nchi ifuatayo ni nani: Gambia? Jibu kwa jina la mtu pekee.",
+   "reference_en": "Who is the current head of government of the following country: The Gambia? Answer with only the person's name.",
+   "back_en": "Who is the current head of government of the following country: Gambia?",
+   "bt_f1": 0.75
+  },
+  {
+   "form": "paraphrase",
+   "relation": "capital",
+   "lang": "hi",
+   "text": "इस देश की राजधानी बताएं: सेंट लूसिया। उत्तर केवल शहर का नाम हो।",
+   "reference_en": "Tell me the capital of Saint Lucia. Reply with the city name only.",
+   "back_en": "What is the capital of this country: Saint Lucia?",
+   "bt_f1": 0.455
+  },
+  {
+   "form": "paraphrase",
+   "relation": "capital",
+   "lang": "ar",
+   "text": "أخبرني بعاصمة هذه الدولة: سانت لوسيا. اكتب اسم المدينة فقط.",
+   "reference_en": "Tell me the capital of Saint Lucia. Reply with the city name only.",
+   "back_en": "What is the capital of this country: Saint Lucia? Write the name of the city only.",
+   "bt_f1": 0.621
+  },
+  {
+   "form": "paraphrase",
+   "relation": "capital",
+   "lang": "fr",
+   "text": "Dis-moi la capitale de ce pays : Sainte-Lucie. Réponds seulement avec le nom de la ville.",
+   "reference_en": "Tell me the capital of Saint Lucia. Reply with the city name only.",
+   "back_en": "What is the capital of that country: Saint Lucia?",
+   "bt_f1": 0.455
+  },
+  {
+   "form": "paraphrase",
+   "relation": "capital",
+   "lang": "sw",
+   "text": "Niambie mji mkuu wa nchi hii: Saint Lucia. Andika jina la mji tu.",
+   "reference_en": "Tell me the capital of Saint Lucia. Reply with the city name only.",
+   "back_en": "What is the capital city of this country: Saint Lucia. Write the name of the city only.",
+   "bt_f1": 0.6
+  },
+  {
+   "form": "paraphrase",
+   "relation": "continent",
+   "lang": "hi",
+   "text": "इस देश का महाद्वीप बताएं: सेंट लूसिया। उत्तर केवल महाद्वीप का नाम हो।",
+   "reference_en": "Tell me the continent that Saint Lucia belongs to. Reply with the continent name only.",
+   "back_en": "What is the continent of this country: Saint Lucia?",
+   "bt_f1": 0.333
+  },
+  {
+   "form": "paraphrase",
+   "relation": "continent",
+   "lang": "ar",
+   "text": "أخبرني بقارة هذه الدولة: سانت لوسيا. اكتب اسم القارة فقط.",
+   "reference_en": "Tell me the continent that Saint Lucia belongs to. Reply with the continent name only.",
+   "back_en": "What is the continent of this country: Saint Lucia? Write the name of the continent only.",
+   "bt_f1": 0.516
+  },
+  {
+   "form": "paraphrase",
+   "relation": "continent",
+   "lang": "fr",
+   "text": "Dis-moi à quel continent appartient ce pays : Sainte-Lucie. Réponds seulement avec le nom du continent.",
+   "reference_en": "Tell me the continent that Saint Lucia belongs to. Reply with the continent name only.",
+   "back_en": "Which continent does this country belong to: Saint Lucia?",
+   "bt_f1": 0.333
+  },
+  {
+   "form": "paraphrase",
+   "relation": "continent",
+   "lang": "sw",
+   "text": "Niambie bara la nchi hii: Saint Lucia. Andika jina la bara tu.",
+   "reference_en": "Tell me the continent that Saint Lucia belongs to. Reply with the continent name only.",
+   "back_en": "What is the name of this country: Saint Lucia?",
+   "bt_f1": 0.333
+  },
+  {
+   "form": "paraphrase",
+   "relation": "language",
+   "lang": "hi",
+   "text": "इस देश की आधिकारिक भाषा बताएं: सेंट लूसिया। उत्तर केवल भाषा का नाम हो।",
+   "reference_en": "Tell me the official language of Saint Lucia. Reply with the language name only.",
+   "back_en": "What is the official language of this country: Saint Lucia?",
+   "bt_f1": 0.5
+  },
+  {
+   "form": "paraphrase",
+   "relation": "language",
+   "lang": "ar",
+   "text": "أخبرني باللغة الرسمية لهذه الدولة: سانت لوسيا. اكتب اسم اللغة فقط.",
+   "reference_en": "Tell me the official language of Saint Lucia. Reply with the language name only.",
+   "back_en": "What is the official language of this country: Saint Lucia? Write the name of the language only.",
+   "bt_f1": 0.645
+  },
+  {
+   "form": "paraphrase",
+   "relation": "language",
+   "lang": "fr",
+   "text": "Dis-moi la langue officielle de ce pays : Sainte-Lucie. Réponds seulement avec le nom de la langue.",
+   "reference_en": "Tell me the official language of Saint Lucia. Reply with the language name only.",
+   "back_en": "What is the official language of this country: Saint Lucia?",
+   "bt_f1": 0.5
+  },
+  {
+   "form": "paraphrase",
+   "relation": "language",
+   "lang": "sw",
+   "text": "Niambie lugha rasmi ya nchi hii: Saint Lucia. Andika jina la lugha tu.",
+   "reference_en": "Tell me the official language of Saint Lucia. Reply with the language name only.",
+   "back_en": "What is the official language of Saint Lucia?",
+   "bt_f1": 0.545
+  },
+  {
+   "form": "paraphrase",
+   "relation": "currency",
+   "lang": "hi",
+   "text": "इस देश की मुद्रा बताएं: सऊदी अरब। उत्तर केवल मुद्रा का नाम हो।",
+   "reference_en": "Tell me the currency used in Saudi Arabia. Reply with the currency name only.",
+   "back_en": "What is the currency of this country: Saudi Arabia?",
+   "bt_f1": 0.348
+  },
+  {
+   "form": "paraphrase",
+   "relation": "currency",
+   "lang": "ar",
+   "text": "أخبرني بعملة هذه الدولة: السعودية. اكتب اسم العملة فقط.",
+   "reference_en": "Tell me the currency used in Saudi Arabia. Reply with the currency name only.",
+   "back_en": "What is the currency of this country: Saudi Arabia? Write the name of the currency only.",
+   "bt_f1": 0.533
+  },
+  {
+   "form": "paraphrase",
+   "relation": "currency",
+   "lang": "fr",
+   "text": "Dis-moi la monnaie de ce pays : Arabie saoudite. Réponds seulement avec le nom de la monnaie.",
+   "reference_en": "Tell me the currency used in Saudi Arabia. Reply with the currency name only.",
+   "back_en": "What is the currency of this country: Saudi Arabia?",
+   "bt_f1": 0.348
+  },
+  {
+   "form": "paraphrase",
+   "relation": "currency",
+   "lang": "sw",
+   "text": "Niambie sarafu ya nchi hii: Saudia. Andika jina la sarafu tu.",
+   "reference_en": "Tell me the currency used in Saudi Arabia. Reply with the currency name only.",
+   "back_en": "What is the currency of this country: Saudi? Write the name of the currency only.",
+   "bt_f1": 0.483
+  },
+  {
+   "form": "paraphrase",
+   "relation": "country",
+   "lang": "hi",
+   "text": "इस शहर का देश बताएं: लाहौर। उत्तर केवल देश का नाम हो।",
+   "reference_en": "Tell me the country where the city of Lahore is located. Reply with the country name only.",
+   "back_en": "What is the country of the city of Lahore?",
+   "bt_f1": 0.538
+  },
+  {
+   "form": "paraphrase",
+   "relation": "country",
+   "lang": "ar",
+   "text": "أخبرني بالدولة التي تقع فيها هذه المدينة: لاهور. اكتب اسم الدولة فقط.",
+   "reference_en": "Tell me the country where the city of Lahore is located. Reply with the country name only.",
+   "back_en": "Which country is the city of Lahore located in?",
+   "bt_f1": 0.538
+  },
+  {
+   "form": "paraphrase",
+   "relation": "country",
+   "lang": "fr",
+   "text": "Dis-moi dans quel pays se situe cette ville : Lahore. Réponds seulement avec le nom du pays.",
+   "reference_en": "Tell me the country where the city of Lahore is located. Reply with the country name only.",
+   "back_en": "What country is the city of Lahore located in?",
+   "bt_f1": 0.538
+  },
+  {
+   "form": "paraphrase",
+   "relation": "country",
+   "lang": "sw",
+   "text": "Niambie nchi ambayo mji huu uko: Lahore. Andika jina la nchi tu.",
+   "reference_en": "Tell me the country where the city of Lahore is located. Reply with the country name only.",
+   "back_en": "What is the name of the country where this city is located: Lahore?",
+   "bt_f1": 0.667
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_state",
+   "lang": "hi",
+   "text": "इस देश के वर्तमान राष्ट्राध्यक्ष का नाम बताएं: अण्टीगुआ और बारबूडा। उत्तर केवल नाम हो।",
+   "reference_en": "Tell me who currently serves as head of state of Antigua and Barbuda. Reply with the name only.",
+   "back_en": "What is the name of the current head of state of Antigua and Barbuda?",
+   "bt_f1": 0.563
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_state",
+   "lang": "ar",
+   "text": "أخبرني من يشغل حاليًا منصب رئيس الدولة في هذه الدولة: أنتيغوا وباربودا. اكتب الاسم فقط.",
+   "reference_en": "Tell me who currently serves as head of state of Antigua and Barbuda. Reply with the name only.",
+   "back_en": "Who is currently the Head of State in the country of Antigua and Barbuda?",
+   "bt_f1": 0.625
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_state",
+   "lang": "fr",
+   "text": "Dis-moi qui est actuellement le chef d'État de ce pays : Antigua-et-Barbuda. Réponds seulement avec le nom.",
+   "reference_en": "Tell me who currently serves as head of state of Antigua and Barbuda. Reply with the name only.",
+   "back_en": "Who is currently the head of state of Antigua and Barbuda?",
+   "bt_f1": 0.69
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_state",
+   "lang": "sw",
+   "text": "Niambie ni nani mkuu wa nchi wa sasa wa nchi hii: Antigua na Barbuda. Andika jina tu.",
+   "reference_en": "Tell me who currently serves as head of state of Antigua and Barbuda. Reply with the name only.",
+   "back_en": "Who is the current head of state of this country: Antigua and Barbuda? Write the name only.",
+   "bt_f1": 0.629
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_government",
+   "lang": "hi",
+   "text": "इस देश के वर्तमान शासनाध्यक्ष का नाम बताएं: गाम्बिया। उत्तर केवल नाम हो।",
+   "reference_en": "Tell me who currently serves as head of government of The Gambia. Reply with the name only.",
+   "back_en": "Who is the current head of state of The Gambia?",
+   "bt_f1": 0.519
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_government",
+   "lang": "ar",
+   "text": "أخبرني من يشغل حاليًا منصب رئيس الحكومة في هذه الدولة: غامبيا. اكتب الاسم فقط.",
+   "reference_en": "Tell me who currently serves as head of government of The Gambia. Reply with the name only.",
+   "back_en": "Who is currently the Prime Minister of The Gambia?",
+   "bt_f1": 0.462
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_government",
+   "lang": "fr",
+   "text": "Dis-moi qui est actuellement le chef du gouvernement de ce pays : Gambie. Réponds seulement avec le nom.",
+   "reference_en": "Tell me who currently serves as head of government of The Gambia. Reply with the name only.",
+   "back_en": "Who is currently the head of government of the Gambia?",
+   "bt_f1": 0.667
+  },
+  {
+   "form": "paraphrase",
+   "relation": "head_of_government",
+   "lang": "sw",
+   "text": "Niambie ni nani mkuu wa serikali wa sasa wa nchi hii: Gambia. Andika jina tu.",
+   "reference_en": "Tell me who currently serves as head of government of The Gambia. Reply with the name only.",
+   "back_en": "Who is the current head of state of this country: Gambia. Write the name only.",
+   "bt_f1": 0.562
+  }
+ ]
+}

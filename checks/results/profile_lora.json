@@ -1,0 +1,47 @@
+{
+ "cell_like": "b1 lora circuit seed 0",
+ "steps": 20,
+ "wall_s": 44.3,
+ "train_stats": {
+  "steps": 20,
+  "wall_s": 42.7,
+  "tokens_per_s": 462.2,
+  "final_loss": 4.478569507598877,
+  "loss_first5": [
+   4.842743396759033,
+   4.796319007873535,
+   4.625650405883789,
+   6.136956691741943,
+   4.692005634307861
+  ],
+  "n_trainable": 3489792,
+  "mask_leak_max": 0.0,
+  "peak_mps_gb": 9.29
+ },
+ "top_ops_self_cpu": [
+  "-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ",
+  "                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls  ",
+  "-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ",
+  "                              aten::_local_scalar_dense        94.63%       40.592s        94.63%       40.592s       9.891ms          4104  ",
+  "                                               aten::mm         1.11%     476.978ms         1.11%     476.991ms      37.195us         12824  ",
+  "                                            aten::copy_         0.99%     423.078ms         1.01%     433.451ms       5.540us         78236  ",
+  "                                           aten::linear         0.59%     254.040ms         0.65%     278.826ms      15.682us         17780  ",
+  "                                              aten::bmm         0.51%     219.460ms         0.51%     220.281ms      38.243us          5760  ",
+  "                                        LinearBackward0         0.41%     174.882ms         2.28%     976.315ms     109.698us          8900  ",
+  "                                              aten::mul         0.22%      94.614ms         0.25%     107.602ms       3.667us         29344  ",
+  "                           aten::_softmax_backward_data         0.10%      44.684ms         0.10%      44.684ms      62.061us           720  ",
+  "                       aten::_log_softmax_backward_data         0.08%      33.257ms         0.08%      33.257ms       1.663ms            20  ",
+  "                                         aten::_to_copy         0.07%      28.978ms         1.09%     468.608ms       7.172us         65336  ",
+  "                                    aten::empty_strided         0.07%      28.714ms         0.07%      28.714ms       0.436us         65920  ",
+  "                                             aten::add_         0.06%      27.064ms         0.07%      32.088ms       1.687us         19020  ",
+  "                              Optimizer.step#AdamW.step         0.06%      24.206ms         0.16%      69.968ms       3.498ms            20  ",
+  "                                            aten::empty         0.06%      23.980ms         0.06%      23.980ms       0.590us         40626  ",
+  "                                              aten::add         0.04%      18.644ms         0.05%      20.217ms       2.261us          8940  ",
+  "-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ",
+  "Self CPU time total: 42.893s"
+ ],
+ "deterministic_algorithms": {
+  "accepted": false,
+  "error": "RuntimeError: index_put_with_accumulate_mps does not have a deterministic implementation, but you set 'torch.use_deterministic_algorithms(True)'. You can turn off determinism just for this operation, or you can use the 'warn_only=True' option, if that's acceptable for your application. You can also file an issue at https://github.com/pytorch/pytorch/issues to help us prioritize adding deterministic support for this operation."
+ }
+}
