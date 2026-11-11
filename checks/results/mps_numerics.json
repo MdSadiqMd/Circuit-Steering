@@ -1,0 +1,27 @@
+{
+ "tl_mps_vs_hf_mps": {
+  "top1_agree": 1.0,
+  "top5_overlap": 0.975,
+  "max_abs_diff": 0.40625,
+  "mean_abs_diff": 0.02964787557721138
+ },
+ "tl_mps_vs_tl_cpu32": {
+  "top1_agree": 1.0,
+  "top5_overlap": 0.975,
+  "max_abs_diff": 0.48095178604125977,
+  "mean_abs_diff": 0.02290867269039154
+ },
+ "hf_mps_vs_hf_cpu32": {
+  "top1_agree": 1.0,
+  "top5_overlap": 1.0,
+  "max_abs_diff": 0.2523496150970459,
+  "mean_abs_diff": 0.022170569747686386
+ },
+ "tl_cpu32_vs_hf_cpu32": {
+  "top1_agree": 1.0,
+  "top5_overlap": 1.0,
+  "max_abs_diff": 0.0001062154769897461,
+  "mean_abs_diff": 6.290666533459444e-06
+ },
+ "gold_top1_cpu32": 0.875
+}

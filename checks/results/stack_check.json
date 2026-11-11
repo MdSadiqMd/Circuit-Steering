@@ -1,0 +1,31 @@
+{
+  "model": "CohereLabs/tiny-aya-global",
+  "arch": "Cohere2ForCausalLM",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "versions": {
+    "circuitkit": "0.2.0",
+    "auditkit": "1.1.3",
+    "safetune": "0.1.10",
+    "transformer-lens": "3.8.0",
+    "transformers": "5.22.1",
+    "torch": "2.15.0",
+    "peft": "0.21.2"
+  },
+  "load_s": 12.1,
+  "discover_s": 50.1,
+  "faithfulness_s": 60.0,
+  "n_circuit_nodes": 612,
+  "patching": 0.9507575757575758,
+  "ablation_zero_raw_ratio": 0.6545454545454545,
+  "selective_lora_layers": {
+    "attn": 31,
+    "mlp": 7
+  },
+  "auditkit_headline": {
+    "exact_match": 0.0,
+    "f1_score": 0.2916666666666667
+  },
+  "steering_nodes": 612,
+  "editor": "CircuitKnowledgeEditor"
+}
