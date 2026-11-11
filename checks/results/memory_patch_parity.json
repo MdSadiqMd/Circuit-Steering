@@ -1,0 +1,9 @@
+{
+ "task": "b1_en",
+ "node_spearman_signed": 0.9992961880394582,
+ "node_spearman_abs_artifact": 0.9978292724774723,
+ "top10pct_jaccard": 1.0,
+ "edge_max_abs_diff": 0.0625,
+ "edge_max_abs": 2.140625,
+ "edge_spearman": 0.9736986674436958
+}
