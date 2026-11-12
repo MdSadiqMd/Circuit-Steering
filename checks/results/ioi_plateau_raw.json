@@ -1,0 +1,26 @@
+{
+ "s0_1pct": {
+  "raw_score": 0.86328125,
+  "clean_score": 2.484375,
+  "corrupt_score": 0.173828125,
+  "raw_ratio": 0.29839391377852914
+ },
+ "s0_2pct": {
+  "raw_score": 0.86328125,
+  "clean_score": 2.484375,
+  "corrupt_score": 0.173828125,
+  "raw_ratio": 0.29839391377852914
+ },
+ "s1_1pct": {
+  "raw_score": 1.328125,
+  "clean_score": 2.484375,
+  "corrupt_score": 0.65625,
+  "raw_ratio": 0.36752136752136755
+ },
+ "s1_2pct": {
+  "raw_score": 1.328125,
+  "clean_score": 2.484375,
+  "corrupt_score": 0.65625,
+  "raw_ratio": 0.36752136752136755
+ }
+}

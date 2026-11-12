@@ -1,0 +1,72 @@
+{
+ "b1_en": {
+  "clean": 11.072265625,
+  "corrupt": -11.4609375,
+  "ratio_at_zero_metric": 0.5086244257605963,
+  "corrupt_over_clean": -1.0351031928029635,
+  "ratio_resolution_bf16": 0.002773684666724452
+ },
+ "b1_hi": {
+  "clean": 7.525064945220947,
+  "corrupt": -6.946939945220947,
+  "ratio_at_zero_metric": 0.4800260916031812,
+  "corrupt_over_clean": -0.92317342053411,
+  "ratio_resolution_bf16": 0.0021593414483047344
+ },
+ "b1_ar": {
+  "clean": 7.7626953125,
+  "corrupt": -7.1064453125,
+  "ratio_at_zero_metric": 0.47793248390910287,
+  "corrupt_over_clean": -0.9154610642848157,
+  "ratio_resolution_bf16": 0.0021016681991330617
+ },
+ "b1_fr": {
+  "clean": 10.300129890441895,
+  "corrupt": -9.720051765441895,
+  "ratio_at_zero_metric": 0.4855126657946803,
+  "corrupt_over_clean": -0.9436824456419439,
+  "ratio_resolution_bf16": 0.003121849795085735
+ },
+ "b1_sw": {
+  "clean": 7.9033203125,
+  "corrupt": -6.998046875,
+  "ratio_at_zero_metric": 0.4696244839111344,
+  "corrupt_over_clean": -0.8854565674039293,
+  "ratio_resolution_bf16": 0.0020971230093715185
+ },
+ "b2_en": {
+  "clean": 7.725260257720947,
+  "corrupt": -1.4202474355697632,
+  "ratio_at_zero_metric": 0.1552945427635121,
+  "corrupt_over_clean": -0.183844606937392,
+  "ratio_resolution_bf16": 0.0034169781545233947
+ },
+ "ioi": {
+  "clean": 2.4361979961395264,
+  "corrupt": -0.05999755859375,
+  "ratio_at_zero_metric": 0.02403560028779911,
+  "corrupt_over_clean": -0.024627537945940338,
+  "ratio_resolution_bf16": 0.006259525609030084
+ },
+ "langid_en": {
+  "clean": 6.746744632720947,
+  "corrupt": -6.459310054779053,
+  "ratio_at_zero_metric": 0.4891173183534534,
+  "corrupt_over_clean": -0.9573965529171107,
+  "ratio_resolution_bf16": 0.002366338830141241
+ },
+ "ioi_fixed": {
+  "clean": 8.17578125,
+  "corrupt": 0.015462239272892475,
+  "ratio_at_zero_metric": -0.0018948081873474143,
+  "corrupt_over_clean": 0.0018912246793408856,
+  "ratio_resolution_bf16": 0.007659014300524395
+ },
+ "b2m_en": {
+  "clean": 7.5234375,
+  "corrupt": -1.9466146230697632,
+  "ratio_at_zero_metric": 0.20555479502881116,
+  "corrupt_over_clean": -0.25874005374136,
+  "ratio_resolution_bf16": 0.0032998762407941383
+ }
+}
