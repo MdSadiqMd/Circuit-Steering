@@ -1,0 +1,62 @@
+{
+ "model": "CohereLabs/tiny-aya-global",
+ "dtype": "bfloat16",
+ "device": "mps",
+ "machine": "Apple M4 Max, MPS",
+ "new_tokens": 128,
+ "base": [
+  {
+   "batch_size": 1,
+   "prompts": 16,
+   "input_tokens": 287,
+   "output_tokens": 1802,
+   "wall_s": 30.19,
+   "output_tokens_per_s": 59.7
+  },
+  {
+   "batch_size": 8,
+   "prompts": 64,
+   "input_tokens": 1143,
+   "output_tokens": 7247,
+   "wall_s": 27.19,
+   "output_tokens_per_s": 266.6
+  },
+  {
+   "batch_size": 32,
+   "prompts": 64,
+   "input_tokens": 1143,
+   "output_tokens": 7260,
+   "wall_s": 13.86,
+   "output_tokens_per_s": 523.7
+  }
+ ],
+ "adapter": {
+  "cell": "b2_lora_circuit30_s0",
+  "runs": [
+   {
+    "batch_size": 1,
+    "prompts": 16,
+    "input_tokens": 287,
+    "output_tokens": 1776,
+    "wall_s": 36.36,
+    "output_tokens_per_s": 48.9
+   },
+   {
+    "batch_size": 8,
+    "prompts": 64,
+    "input_tokens": 1143,
+    "output_tokens": 6770,
+    "wall_s": 45.58,
+    "output_tokens_per_s": 148.5
+   },
+   {
+    "batch_size": 32,
+    "prompts": 64,
+    "input_tokens": 1143,
+    "output_tokens": 6807,
+    "wall_s": 18.71,
+    "output_tokens_per_s": 363.7
+   }
+  ]
+ }
+}
