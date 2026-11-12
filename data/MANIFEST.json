@@ -1,0 +1,354 @@
+{
+ "git_sha": "5aab5edb59cd9919044924846c5732b388a6a25e",
+ "n_files": 58,
+ "files": {
+  "a22/benign.jsonl": {
+   "sha256": "3702ffea29db533db93e26a55f684f25884fcffe9ff2ad0369d331f3bfc5cb07",
+   "bytes": 328629,
+   "rows": 191,
+   "producer": "data/a22_build.py"
+  },
+  "a22/split.json": {
+   "sha256": "134db79a494e9ecc4bd459d9605553a69e016cd37601d76ffd6f38029c952920",
+   "bytes": 11934,
+   "rows": null,
+   "producer": "data/a22_build.py"
+  },
+  "a23/fluency.jsonl": {
+   "sha256": "b49b6db2df84bb2d3b66938454e21d8075338214cb0e0656a495ce5e961bdf99",
+   "bytes": 266761,
+   "rows": 1200,
+   "producer": "data/a23_build.py"
+  },
+  "a23/plain.jsonl": {
+   "sha256": "bb28dd0d989eae25ed9c4ac99d02ea9726019aa95bd4be8569fbf6a4c0864ca9",
+   "bytes": 180970,
+   "rows": 585,
+   "producer": "data/a23_build.py"
+  },
+  "a24/plain.jsonl": {
+   "sha256": "e962413182d332903c4acc7811c6d3b39571dfdc11fa672271b84ec85ea88f7c",
+   "bytes": 181342,
+   "rows": 585,
+   "producer": "data/a23_build.py variant=sampled"
+  },
+  "b1/build_stats.json": {
+   "sha256": "4b1bc23fc5ae7bdd8af58fb8bbc2ca6568fedbe21ba92f9204fa2f58e01643a7",
+   "bytes": 531,
+   "rows": null,
+   "producer": "data/b1_build.py"
+  },
+  "b1/eap_ar.csv": {
+   "sha256": "bb48ad7c5a5f64c1c5c60b4f967c0c6640566b1fad7017d7808acaaa95b72748",
+   "bytes": 734487,
+   "rows": 1489,
+   "producer": "data/b1_build.py"
+  },
+  "b1/eap_en.csv": {
+   "sha256": "7d0150df3ae30799ebdfb60c81b9b0412afd39697306e3147a3bdf3745772e53",
+   "bytes": 671857,
+   "rows": 1493,
+   "producer": "data/b1_build.py"
+  },
+  "b1/eap_fr.csv": {
+   "sha256": "78377d157c7a2f7dae93d8c97bca203e07f43f9b5e720fd8ef23b7c34766586a",
+   "bytes": 690630,
+   "rows": 1485,
+   "producer": "data/b1_build.py"
+  },
+  "b1/eap_hi.csv": {
+   "sha256": "1061b45c052caf92457c9454e12648fe4f1c3b64cca8c32f80e0fbe609fbec4d",
+   "bytes": 1014613,
+   "rows": 1490,
+   "producer": "data/b1_build.py"
+  },
+  "b1/eap_known_ar.csv": {
+   "sha256": "4ba0eb709498ebeead8d31396d4d115035469e8f00fb061ece1d980a6bd7a234",
+   "bytes": 487554,
+   "rows": 994,
+   "producer": "data/filter_model.py"
+  },
+  "b1/eap_known_en.csv": {
+   "sha256": "41295a2503df1514a4183d9e4154e0788cc3fd7fddc57eabc3682d1d0e03275d",
+   "bytes": 577374,
+   "rows": 1292,
+   "producer": "data/filter_model.py"
+  },
+  "b1/eap_known_fr.csv": {
+   "sha256": "8f1901dc4319d7f40310feee5fd5cabd8ca427e81afa4f46a11ddb9d0673898f",
+   "bytes": 573333,
+   "rows": 1238,
+   "producer": "data/filter_model.py"
+  },
+  "b1/eap_known_hi.csv": {
+   "sha256": "75586dcd9b2d734a26b55c0cada703676b9460392da7d21b2ccecdf11a5dd384",
+   "bytes": 613966,
+   "rows": 915,
+   "producer": "data/filter_model.py"
+  },
+  "b1/eap_known_sw.csv": {
+   "sha256": "a7f481ab98ae0d70887cd4809358ddc4ca0e3fcb3fdb7be2fd9b5a7ed16514ac",
+   "bytes": 332172,
+   "rows": 802,
+   "producer": "data/filter_model.py"
+  },
+  "b1/eap_sw.csv": {
+   "sha256": "3466f5b274aedd9433b571bd9663bdaf348579b0c9d2b11c9b933e926887a996",
+   "bytes": 619277,
+   "rows": 1487,
+   "producer": "data/b1_build.py"
+  },
+  "b1/facts_pool.jsonl": {
+   "sha256": "488e2690585de2449ee3583cf619e4b6b88de596021687f850fd4938352d3eb1",
+   "bytes": 1038906,
+   "rows": 1502,
+   "producer": "data/facts_wikidata.py"
+  },
+  "b1/false_facts.jsonl": {
+   "sha256": "bca2041a6b47f279cfeec5b0c1dd773c5da0960a0fb8b7e742927a046b5f3459",
+   "bytes": 140350,
+   "rows": 180,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_ar.jsonl": {
+   "sha256": "70e5956d1897bf97341197543b7eaa7e703547338cd56fa79e79bf71975f238b",
+   "bytes": 1632375,
+   "rows": 1502,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_en.jsonl": {
+   "sha256": "b03fe3de25d59bf259d88d0eaadd18fe77b6f306510376fc09bd59fa6ef00f62",
+   "bytes": 1517302,
+   "rows": 1502,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_fr.jsonl": {
+   "sha256": "78c4ba2802407c05a90030620002d13d0df142417a5e01a04b4a0fd216332874",
+   "bytes": 1521040,
+   "rows": 1502,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_hi.jsonl": {
+   "sha256": "b4916dc42488133cd4c399459243b3493c2eefd3fac76df185b7f12e9c945599",
+   "bytes": 1977296,
+   "rows": 1502,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_manifest.json": {
+   "sha256": "f8b454ea27190e76cb0a5290402719f7784777845ac03fa9c04b8e82cd8710ea",
+   "bytes": 6533,
+   "rows": null,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_summary.json": {
+   "sha256": "d8e73c78dda0ed6940168467d3d1709e553e6498267747ac2d162f79687939dc",
+   "bytes": 2709,
+   "rows": null,
+   "producer": "data/filter_model.py"
+  },
+  "b1/model_eval_sw.jsonl": {
+   "sha256": "36c581bb778226c32db0a1a8244c331b563215a3dc7f91771533fd89e5e17504",
+   "bytes": 1324159,
+   "rows": 1502,
+   "producer": "data/filter_model.py"
+  },
+  "b1/prompts_ar.jsonl": {
+   "sha256": "d5eca714bef4ef0c79c4bcf6f94ca324302e86002fce55a88bdcf4627a869344",
+   "bytes": 1355684,
+   "rows": 1502,
+   "producer": "data/b1_build.py"
+  },
+  "b1/prompts_en.jsonl": {
+   "sha256": "9d4a8c7bd40d1a1f0ac7ace43bd4141332983747c6443d8f678c75d9adddb0c4",
+   "bytes": 1255380,
+   "rows": 1502,
+   "producer": "data/b1_build.py"
+  },
+  "b1/prompts_fr.jsonl": {
+   "sha256": "4b46a3143a9209f86631d44f4916d11b07883aad9846674acc84e0d97e8f5f5c",
+   "bytes": 1260872,
+   "rows": 1502,
+   "producer": "data/b1_build.py"
+  },
+  "b1/prompts_hi.jsonl": {
+   "sha256": "aa9dbabb08e575748e6292578f643e162e7e83a32ad838389386babc30b9d330",
+   "bytes": 1690067,
+   "rows": 1502,
+   "producer": "data/b1_build.py"
+  },
+  "b1/prompts_sw.jsonl": {
+   "sha256": "df9a65993b95a3a7183b36c12fc3cc5dcbefb6b406d38471e1d2504ca438259a",
+   "bytes": 1059876,
+   "rows": 1502,
+   "producer": "data/b1_build.py"
+  },
+  "b1/ripple_en.jsonl": {
+   "sha256": "e41ca77e08d833f61d692476f3d52ed505a5c1e845d08979f897327fbb32a8d3",
+   "bytes": 162869,
+   "rows": 334,
+   "producer": "data/b1_ripple.py"
+  },
+  "b2/baseline_cyber.jsonl": {
+   "sha256": "9bb77c2ab179f1f8a14dd3286ad98d888f116fdbc16fb21dab099b5251262e87",
+   "bytes": 127664,
+   "rows": 68,
+   "producer": "data/b2_baseline.py (sanitized by data/sanitize.py, amendment A7)"
+  },
+  "b2/baseline_summary.json": {
+   "sha256": "ed62c8aa894f04d9a0d8f1f645999b0e3e0192211ab35564cebddba5017bfb97",
+   "bytes": 5229,
+   "rows": null,
+   "producer": "data/b2_baseline.py (sanitized by data/sanitize.py, amendment A7)"
+  },
+  "b2/baseline_theft_fraud.jsonl": {
+   "sha256": "7c4633194568edc95e826d11b777cb12dc7901d899964cab4ee4ca375da990be",
+   "bytes": 87447,
+   "rows": 54,
+   "producer": "data/b2_baseline.py (sanitized by data/sanitize.py, amendment A7)"
+  },
+  "b2/baseline_weapons_violence.jsonl": {
+   "sha256": "7dc70499f893abcf5b274795d5e1c2964591128a23e94ed4736ea70383e99c14",
+   "bytes": 322497,
+   "rows": 215,
+   "producer": "data/b2_baseline.py (sanitized by data/sanitize.py, amendment A7)"
+  },
+  "b2/build_stats.json": {
+   "sha256": "00898b13471a37f66071df70114e8782c2c79acd3005bbd4e2a0f30b92f56d8c",
+   "bytes": 266,
+   "rows": null,
+   "producer": "data/b2_build.py"
+  },
+  "b2/eap_ar.csv": {
+   "sha256": "65a2881d749369703be17824bed6cb385bbe9ef94fc2e2d5eb0c239d36ad3968",
+   "bytes": 66936,
+   "rows": 140,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_ar_matched.csv": {
+   "sha256": "c2d7747a6750aad87c256f2da257965f506d8831d516586ac815410067a75cc2",
+   "bytes": 43773,
+   "rows": 98,
+   "producer": "data/b2_matched.py"
+  },
+  "b2/eap_en.csv": {
+   "sha256": "599c721670bb4cdb962bb4ffa7c21b49d6da0601cb43dfd30cb4dfa5996af98f",
+   "bytes": 81113,
+   "rows": 209,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_en_matched.csv": {
+   "sha256": "4347642c7f8c0ee9ec12f1ed145b3cf82c5d3961f5d1ffb928534a04c06cce7f",
+   "bytes": 60769,
+   "rows": 162,
+   "producer": "data/b2_matched.py"
+  },
+  "b2/eap_fr.csv": {
+   "sha256": "0c23535ee59e2e9050b4e02dc1f8c2250b6391f8c6a597ac68f923af0608b854",
+   "bytes": 70962,
+   "rows": 163,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_fr_matched.csv": {
+   "sha256": "93a77ab2138e3d98ebd2048dacea252329b11458de85a7462a5d0f2bf2b83e0e",
+   "bytes": 43160,
+   "rows": 106,
+   "producer": "data/b2_matched.py"
+  },
+  "b2/eap_hi.csv": {
+   "sha256": "feac4c53204b55812d36116733830dbc2523c59cf081cf8ddfcb4f11c5833844",
+   "bytes": 63616,
+   "rows": 99,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_hi_matched.csv": {
+   "sha256": "e294b97e2ac18efb07bcbd1e02093e6dbfe3f1318de1aa3ded9127b19032e74f",
+   "bytes": 37495,
+   "rows": 64,
+   "producer": "data/b2_matched.py"
+  },
+  "b2/eap_stats.json": {
+   "sha256": "c2c42baa2ff0905bc0af43ffca02cac9c43576ede6e36deb20ddf71140275016",
+   "bytes": 898,
+   "rows": null,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_sw.csv": {
+   "sha256": "12bfc24ad32469133b286eed513f4488796e4162ae1b6651d7aec8c68cc31513",
+   "bytes": 72176,
+   "rows": 177,
+   "producer": "data/b2_eap.py"
+  },
+  "b2/eap_sw_matched.csv": {
+   "sha256": "c8f7b8b927d101a2ebae88aeaba542ecac35033bea0300269a6716401ec1ec14",
+   "bytes": 46653,
+   "rows": 121,
+   "producer": "data/b2_matched.py"
+  },
+  "b2/pool_cyber.jsonl": {
+   "sha256": "914aa25ef68b0dd1de74bafa3dcc011820fcdc5e4b0e4e7f34b9ac4163a1bae5",
+   "bytes": 77471,
+   "rows": 68,
+   "producer": "data/b2_build.py + data/translate.py"
+  },
+  "b2/pool_theft_fraud.jsonl": {
+   "sha256": "50766bdb875bb03de733ffcd9853bace4a48cb78fb92dbda92f422be78a298ff",
+   "bytes": 59418,
+   "rows": 54,
+   "producer": "data/b2_build.py + data/translate.py"
+  },
+  "b2/pool_weapons_violence.jsonl": {
+   "sha256": "09da69a8b00a4ee7b6fd50398723a6736834795ef43f8665d587c4cad72b2df8",
+   "bytes": 232698,
+   "rows": 215,
+   "producer": "data/b2_build.py + data/translate.py"
+  },
+  "b2/xstest_all.jsonl": {
+   "sha256": "1d4849161218b1c992c8c0b2cebd90f6c36c7120cff124f1be5d2d9c57d4a7b1",
+   "bytes": 53328,
+   "rows": 450,
+   "producer": "data/b2_build.py"
+  },
+  "bystanders/build_stats.json": {
+   "sha256": "6b51867b2cd60bcbd26382278052c10737f7b5e2b6e925c5f866a09d7a34e212",
+   "bytes": 247,
+   "rows": null,
+   "producer": "data/bystanders.py"
+  },
+  "bystanders/eap_ioi_fixed.csv": {
+   "sha256": "b74da13e00902f1d3e2c170fb5e9333ca078a251f947306b480c573c28e2c007",
+   "bytes": 130925,
+   "rows": 740,
+   "producer": "data/ioi_fixed.py"
+  },
+  "bystanders/eap_langid_ar.csv": {
+   "sha256": "ea5588969019a804add4a76a8c97a2341c516e8a9b92358a4f6353b6e5f668cf",
+   "bytes": 499968,
+   "rows": 738,
+   "producer": "data/bystanders.py"
+  },
+  "bystanders/eap_langid_en.csv": {
+   "sha256": "c9d9ec0739b7e37f9c6c08d869b479c955f95fe2cbfa86181cb223eb39db70d9",
+   "bytes": 499332,
+   "rows": 738,
+   "producer": "data/bystanders.py"
+  },
+  "bystanders/eap_langid_fr.csv": {
+   "sha256": "cd8de5c37440c1c0a8f60cda541857b4cad3052c73e279231d799ee3a20691cb",
+   "bytes": 519656,
+   "rows": 738,
+   "producer": "data/bystanders.py"
+  },
+  "bystanders/eap_langid_hi.csv": {
+   "sha256": "acfac17a88b25672dee30e4ba93883a66a6425725f4647927e30cd280a3e506a",
+   "bytes": 636746,
+   "rows": 740,
+   "producer": "data/bystanders.py"
+  },
+  "bystanders/eap_langid_sw.csv": {
+   "sha256": "5c94c272a819beab6a52da6f9b78f5d906edca07749424dff2695dc1ee61cb92",
+   "bytes": 480338,
+   "rows": 731,
+   "producer": "data/bystanders.py"
+  }
+ }
+}
