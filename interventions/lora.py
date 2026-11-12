@@ -94,14 +94,16 @@ def attach(model, nodes: list[str], unrestricted: bool, rank: int, alpha: int):
     return pm, masks
 
 
-def encode(tok, pairs: list[tuple], device) -> list[dict]:
+def encode(tok, pairs: list[tuple], device, end_ids: list[int] | None = None) -> list[dict]:
     """(chat-wrapped prompt, answer[, ends]) -> input_ids + labels (-100 on the prompt). `ends`
-    (default True) appends EOS; False is for answers that are truncated continuations (A22)."""
+    (default True) appends the end tokens; False is for answers that are truncated continuations
+    (A22). `end_ids` defaults to the tokenizer's EOS, which for Tiny Aya is `<|END_OF_TURN_TOKEN|>`
+    and not what generation stops on; A23 passes the model's own `<|END_RESPONSE|><EOS_TOKEN>`."""
     out = []
     for prompt, answer, *ends in pairs:
         p = tok(prompt, add_special_tokens=False)["input_ids"]
         a = tok(answer, add_special_tokens=False)["input_ids"]
-        a += [tok.eos_token_id] if not ends or ends[0] else []
+        a += (end_ids or [tok.eos_token_id]) if not ends or ends[0] else []
         out.append({"input_ids": torch.tensor(p + a), "labels": torch.tensor([-100] * len(p) + a)})
     return out
 
@@ -148,7 +150,15 @@ def label_position_loss(lm, input_ids, attention_mask, labels) -> torch.Tensor:
 
 
 def train(
-    model, tok, pairs, nodes, condition: str, lcfg: dict, seed: int, snapshots: dict | None = None
+    model,
+    tok,
+    pairs,
+    nodes,
+    condition: str,
+    lcfg: dict,
+    seed: int,
+    snapshots: dict | None = None,
+    end_ids: list[int] | None = None,
 ) -> tuple[dict[str, torch.Tensor], dict]:
     """Train one LoRA cell; returns (factors, stats). The base model is restored (adapter
     removed). `snapshots` = {step: None} is filled with the factors after each listed step (A22)."""
@@ -161,7 +171,7 @@ def train(
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / 5) * 0.5 * (1 + math.cos(math.pi * s / lcfg["steps"]))
     )
-    examples = encode(tok, pairs, model.device)
+    examples = encode(tok, pairs, model.device, end_ids)
     pm.train()
     t0, n_tok, losses = time.time(), 0, []
 
