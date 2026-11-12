@@ -1,0 +1,35 @@
+{
+ "model": "gpt2",
+ "n_examples": 16,
+ "batch_size": 4,
+ "clean_loss_mean": -2.631836414337158,
+ "corrupt_loss_mean": -0.30344724655151367,
+ "riemann3_vs_library": {
+  "rel_l2": 3.933122627586272e-07,
+  "spearman": 0.9999999999416612,
+  "max_abs": 3.8743019104003906e-07,
+  "scale": 1.0000001192092896
+ },
+ "vs_gl15_reference": {
+  "riemann3": {
+   "rel_l2": 0.11629774421453476,
+   "spearman": 0.9703044056864634
+  },
+  "gl3": {
+   "rel_l2": 0.22896535694599152,
+   "spearman": 0.9887565684861062
+  },
+  "riemann6": {
+   "rel_l2": 0.04100148752331734,
+   "spearman": 0.9896012595322424
+  },
+  "richardson_6_3": {
+   "rel_l2": 0.08971384167671204,
+   "spearman": 0.9952960430555472
+  }
+ },
+ "per_example": {
+  "mean_reconstruction_max_abs": 0.0,
+  "between_example_rel_sd": 1.1362892389297485
+ }
+}
