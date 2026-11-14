@@ -16,10 +16,6 @@ In one line, what we did: find the model's refusal circuit (with CircuitKIT, a c
 2. Yes. Our first attempt broke fluency and kept writing after it refused, and the audit caught both. The fix still costs something: harmless prompts are refused 6.1 % of the time instead of 3.1 %, and accuracy on reworded facts drops 3.5 points.
 3. No. The same adapter trained on random components does no worse.
 
-[![Watch the 7-minute film of this write-up](https://huggingface.co/datasets/MdSadiqMd/circuit-steering-audit/resolve/main/article/poster.png)](https://huggingface.co/datasets/MdSadiqMd/circuit-steering-audit/resolve/main/article/film.mp4)
-
-*The same story as a 7-minute narrated film (click to play).*
-
 ## The Problem: A Model That Sometimes Says Yes
 
 Tiny Aya Global is a small multilingual model from Cohere Labs (3.35 billion parameters). Ask it for something harmful and it usually refuses. Usually.
