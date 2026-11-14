@@ -5,7 +5,7 @@ of it under CS_AUDIT_DIR). Three tabs:
   The adapters          A22 and A24 before/after on held-out test prompts, per language, with
                         intervals; base and adapter replies to benign prompts side by side
   Does the circuit matter?  the same adapters restricted to random, inverse and all components
-  All 393 cells         every intervention cell of the main study with its audit scorecard
+  The 393 earlier runs  every intervention cell of the main study with its audit scorecard
 Replies to harmful prompts are never shown or published; only judgments are.
 """
 
@@ -29,7 +29,9 @@ else:
 
     ROOT = Path(
         snapshot_download(
-            f"{NS}/circuit-steering-audit", repo_type="dataset", allow_patterns=["*.json", "*.csv"]
+            f"{NS}/circuit-steering-audit",
+            repo_type="dataset",
+            allow_patterns=["*.json", "*.csv", "standard_checks.md"],
         )
     )
 
@@ -39,7 +41,10 @@ def read(rel: str):
     return json.loads(p.read_text()) if p else None
 
 
-RUNS = {"A24 (recommended: keeps fluency)": "a24", "A22 (strongest effect)": "a22"}
+RUNS = {
+    "Second adapter, A24 (recommended: keeps fluency)": "a24",
+    "First adapter, A22 (stronger effect)": "a22",
+}
 SUMMARY = {r: read(f"{r}_b2.json") or {} for r in RUNS.values()}
 EVAL = {r: (read(f"{r}/eval/base.json"), read(f"{r}/eval/{RELEASED}.json")) for r in RUNS.values()}
 JUDGE = {
@@ -65,7 +70,12 @@ def nothing_broke(label: str) -> list[list[str]]:
         rows.append(["perplexity ratio, unseen sentences", f"{flu['mean']:.3f} ({per})"])
     end = a.get("ended", {}).get(RELEASED, {})
     if end:
-        rows.append(["refusals that end the turn", " · ".join(f"{k} {end[k]:.0%}" for k in LANGS)])
+        rows.append(
+            [
+                "replies to harmful prompts that are only the refusal",
+                " · ".join(f"{k} {end[k]:.0%}" for k in LANGS),
+            ]
+        )
     return rows
 
 
@@ -174,18 +184,20 @@ def compare(beh: str, cell: str, family: str) -> list[list[str]]:
 
 INTRO = """# Two refusal adapters for Tiny Aya, and the audit that checked them
 
-Tiny Aya complies with a harmful request 12.4 % of the time in Hindi, Arabic, French and Swahili
-and 8.8 % in English. These LoRA adapters, trained on the components an EAP-IG refusal circuit
-points to (30 % of the model's heads and MLPs), bring that to 3.8–7.1 % and 1.9–4.4 %. Every number
-is on held-out test prompts, two of the three harm categories were never seen in training, and the
-audit that found damage in 393 earlier intervention cells was run on both. It found two defects in
-the first adapter (A22); the second (A24) fixes them.
+Tiny Aya helps with a harmful request 12.4 % of the time in Hindi, Arabic, French and Swahili and
+8.8 % in English. These two LoRA adapters bring that to 3.8–7.1 % and 1.9–4.4 %. They are trained
+only on the top 30 % of components by refusal-circuit score (149 of 576 heads, 35 of 36 MLPs).
+Every number is on held-out test prompts, and two of the three harm categories were never trained
+on. Four of the five parts of our audit were run on both adapters. It found two defects in the
+first adapter (A22): worse fluency, and refusals that do not stop. The second (A24) fixes them.
+No model runs here: the page shows stored results.
 """
 CIRCUIT = """The honest part. We trained the same adapter on random components (same count per
-layer), on the lowest-scoring components, and on every component. If the circuit were what makes
-the adapter work, it should beat the random sets. It does not: the differences are under a point
-and, in A24, indistinguishable from zero. What works is the training recipe, and what we recommend
-reusing is the audit.
+layer), on every component and, for A22, on the lowest-scoring components. If the circuit were
+what makes the adapter work, it should beat the random sets. At 30 % it does not: the differences
+are about a point or less and, in A24, indistinguishable from zero. At 10 % the circuit adapter
+complies 2 points less but refuses 4 points more harmless prompts, so it moves along the same
+trade-off. What works is the training recipe, and what we recommend reusing is the audit.
 """
 
 with gr.Blocks(title="Refusal adapters for Tiny Aya, audited") as demo:
@@ -218,7 +230,7 @@ with gr.Blocks(title="Refusal adapters for Tiny Aya, audited") as demo:
         gr.Markdown(CIRCUIT)
         gr.Dataframe(value=conditions(), wrap=True)
         gr.Markdown(contrasts())
-    with gr.Tab("All 393 cells"):
+    with gr.Tab("The 393 earlier runs"):
         gr.Markdown(
             "Every steering, LoRA and MEMIT cell of the pre-registered study (b1 = correcting "
             "false facts, b2 = strengthening refusal), with its Nothing-Else-Broke scorecard."

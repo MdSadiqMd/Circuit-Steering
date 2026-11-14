@@ -60,6 +60,9 @@ def test_script_imports(path: Path) -> None:
 
 @pytest.mark.parametrize("args", SELF_CHECKS, ids=lambda a: " ".join(a))
 def test_self_check(args: list[str]) -> None:
+    # data/b2/ holds harmful prompt text and is published on the Hub only, not in the git repo
+    if args[0] == "data/a22_build.py" and not (ROOT / "data/b2/xstest_all.jsonl").exists():
+        pytest.skip("needs data/b2/ from the dataset MdSadiqMd/circuit-steering-data")
     r = subprocess.run(
         [sys.executable, *args], cwd=ROOT, capture_output=True, text=True, timeout=600
     )

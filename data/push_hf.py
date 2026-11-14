@@ -11,6 +11,10 @@ cells, audit results and scorecards. Repos (all public, under the owner's namesp
                                         refusal-weakening artifacts); unaudited cells are withheld
                                         too
   circuit-steering-audit       dataset  runs/audit + docs/results
+Each dataset repo gets its card from docs/dataset_cards/ as README.md. The card's `configs` block
+names the tabular files the Hub viewer shows; without it the viewer tries to merge every JSON
+file into one table and fails. The circuits repo has no tabular file of its own, so
+`circuit_table` writes component_scores.csv from every run's nodes.json.
 A22 and A24 (`what=a22,a24`, roots runs/a22 and runs/a24; not in the default list):
   tiny-aya-global-refusal-circuit-lora          model  A22's PEFT adapter (runs/a22/release)
   tiny-aya-global-refusal-circuit-lora-fluent   model  A24's PEFT adapter (runs/a24/release)
@@ -38,6 +42,65 @@ from data.sanitize import scan, stage_audit
 ROOT = Path(__file__).resolve().parent.parent
 RELEASE, RELEASE_CELL = "tiny-aya-global-refusal-circuit-lora", "circuit30_s0"
 RELEASES = {"a22": RELEASE, "a24": f"{RELEASE}-fluent"}  # Hub model repo of each run's adapter
+CARD_FIGURES = {  # docs/figures/cards/<name>.png shown on docs/model_cards/<card>.md
+    "a22": ("a22_safety", "adapters_defects", "adapters_side_effects"),
+    "a24": ("a24_safety", "adapters_defects", "adapters_side_effects"),
+    "cells": ("cells_contents", "cells_locality"),
+}
+
+
+def circuit_table(circuits: Path) -> Path:
+    """component_scores.csv in the circuits folder: one row per task, seed and component (head or
+    MLP) from every run's nodes.json, ranked by score within the run."""
+    import csv
+    import json
+
+    out = circuits / "component_scores.csv"
+    with out.open("w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["task", "seed", "component", "kind", "layer", "score", "signed_rowsum", "rank"])
+        for nj in sorted(circuits.glob("*/seed*/nodes.json")):
+            n = json.loads(nj.read_text())
+            task, seed = nj.parts[-3], int(nj.parts[-2].removeprefix("seed"))
+            score = n["abs_scores"]
+            signed = dict(zip(n["names"], n["signed_rowsum"], strict=True))
+            for rank, c in enumerate(sorted(score, key=lambda c: -score[c]), 1):
+                head = c.startswith("A")  # "A20.4" is layer 20 head 4, "MLP 20" the layer's MLP
+                layer = int(c[1:].split(".")[0]) if head else int(c.split()[1])
+                w.writerow(
+                    [task, seed, c, "head" if head else "mlp", layer, score[c], signed[c], rank]
+                )
+    return out
+
+
+def push_card(name: str) -> None:
+    """docs/dataset_cards/<name>.md as the README.md of the dataset repo circuit-steering-<name>."""
+    from huggingface_hub import HfApi
+
+    HfApi(token=os.environ["HF_TOKEN"]).upload_file(
+        path_or_fileobj=str(ROOT / f"docs/dataset_cards/{name}.md"),
+        path_in_repo="README.md",
+        repo_id=f"{NAMESPACE}/circuit-steering-{name}",
+        repo_type="dataset",
+        commit_message="dataset card",
+    )
+
+
+def push_model_card(card: str, repo: str) -> None:
+    """docs/model_cards/<card>.md as the model repo's README.md, with the figures it shows under
+    figures/ (written by docs/figures/make_card_figures.py), in one commit."""
+    from huggingface_hub import CommitOperationAdd, HfApi
+
+    figures = ROOT / "docs/figures/cards"
+    ops = [CommitOperationAdd("README.md", str(ROOT / f"docs/model_cards/{card}.md"))]
+    names = CARD_FIGURES[card]
+    ops.extend(CommitOperationAdd(f"figures/{f}.png", str(figures / f"{f}.png")) for f in names)
+    HfApi(token=os.environ["HF_TOKEN"]).create_commit(
+        repo_id=f"{NAMESPACE}/{repo}",
+        repo_type="model",
+        operations=ops,
+        commit_message="model card and figures",
+    )
 
 
 def withheld_cells(runs: Path) -> list[str]:
@@ -150,6 +213,7 @@ def push_run(run_root: Path) -> list[tuple[str, str]]:
     if release.exists() and f"{run}/b2/lora/{RELEASE_CELL}/delta.safetensors" not in withheld:
         shutil.copy2(ROOT / f"docs/model_cards/{run}.md", release / "README.md")
         print(push_folder(release, repo, "model", msg="refusal adapter for Tiny Aya Global"))
+        push_model_card(run, repo)
         pushed.append((repo, "model"))
     return pushed
 
@@ -169,10 +233,13 @@ def main() -> None:
                 "circuit-steering-data",
                 "dataset",
                 msg="data: prompts, EAP pairs, pools, baselines",
+                ignore_patterns=["__pycache__/*"],
             )
         )
+        push_card("data")
         pushed.append(("circuit-steering-data", "dataset"))
     if "circuits" in what and (runs / "circuits").exists():
+        circuit_table(runs / "circuits")
         print(
             push_folder(
                 runs / "circuits",
@@ -181,6 +248,7 @@ def main() -> None:
                 msg="circuits: scores, signed edges, faithfulness",
             )
         )
+        push_card("circuits")
         pushed.append(("circuit-steering-circuits", "dataset"))
     if "cells" in what and (runs / "interventions").exists():
         withheld = withheld_cells(runs)
@@ -209,6 +277,7 @@ def main() -> None:
                 "remove weight files of refusal-weakening or unaudited cells",
             ),
         )
+        push_model_card("cells", "circuit-steering-cells")
         pushed.append(("circuit-steering-cells", "model"))
     if "audit" in what and (runs / "audit").exists():
         staged = stage_audit(runs / "audit", ROOT / ".cache/publish/audit")
@@ -223,6 +292,7 @@ def main() -> None:
                     msg="scorecards and hypothesis tables",
                 )
             )
+        push_card("audit")
     for run in ("a22", "a24"):
         if run in what:
             pushed += push_run(ROOT / "runs" / run)

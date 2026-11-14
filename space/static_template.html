@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safer Tiny Aya, audited</title>
+<style>
+:root {
+  color-scheme: light;
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#6f6d68;
+  --grid:#e6e5df; --axis:#b5b4aa; --border:rgba(11,11,11,.10); --track:#eceae4;
+  --s-a24:#2a78d6; --s-a22:#eb6834; --s-steer:#1baf7a; --s-base:#a3a199; --s-ctl:#a3a199;
+  --wash:#eaf2fc; --good:#006300; --cost:#a8480f; --pill:#fbe9e0;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#9a988f;
+    --grid:#2c2c2a; --axis:#55544f; --border:rgba(255,255,255,.10); --track:#2a2a28;
+    --s-a24:#3987e5; --s-a22:#d95926; --s-steer:#199e70; --s-base:#7d7b75; --s-ctl:#7d7b75;
+    --wash:#14263d; --good:#0ca30c; --cost:#ec835a; --pill:#3a2218;
+  }
+}
+* { box-sizing:border-box; }
+body { background:var(--page); color:var(--ink); margin:0;
+  font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; }
+main { max-width:1040px; margin:0 auto; padding:40px 16px 56px; }
+a { color:inherit; }
+h1 { font-size:clamp(1.75rem, 4.6vw, 2.6rem); line-height:1.12; letter-spacing:-.02em; margin:10px 0 14px;
+  max-width:20ch; text-wrap:balance; }
+h2 { font-size:1.4rem; line-height:1.2; letter-spacing:-.01em; margin:0 0 6px; text-wrap:balance; }
+h3 { font-size:1rem; line-height:1.3; margin:0; }
+h4 { font-size:.875rem; margin:18px 0 2px; color:var(--ink2); font-weight:600; }
+p { margin:0; }
+.eyebrow { font-size:.8125rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
+.dek { font-size:1.125rem; color:var(--ink2); max-width:56ch; }
+.lead { color:var(--ink2); max-width:64ch; }
+.sub { font-size:.875rem; color:var(--ink2); margin-top:3px; }
+.fine { font-size:.8125rem; color:var(--muted); margin-top:12px; max-width:80ch; }
+section { margin-top:56px; }
+.links { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.links a { font-size:.875rem; font-weight:600; text-decoration:none; padding:8px 14px; border-radius:999px;
+  border:1px solid var(--border); background:var(--surface); }
+.links a.primary { background:var(--ink); color:var(--page); border-color:var(--ink); }
+.links a:hover { border-color:var(--axis); }
+
+.tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-top:32px; }
+.tile, .card, .steps li { background:var(--surface); border:1px solid var(--border); border-radius:14px; }
+.tile { padding:16px 18px 18px; display:flex; flex-direction:column; }
+.tile .k { font-size:.8125rem; color:var(--ink2); line-height:1.4; }
+.tile .v { font-size:clamp(2rem, 9vw, 2.5rem); font-weight:650; line-height:1.1; letter-spacing:-.02em; margin-top:auto;
+  padding-top:10px; }
+.tile .d { font-size:.875rem; margin-top:4px; color:var(--ink2); }
+.tile .d b { font-weight:600; }
+.good { color:var(--good); } .cost { color:var(--cost); }
+
+.steps { list-style:none; padding:0; margin:20px 0 0; display:grid; gap:12px;
+  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); counter-reset:step; }
+.steps li { padding:16px 18px; counter-increment:step; }
+.steps .t { display:flex; align-items:center; gap:10px; font-weight:650; }
+.steps .t::before { content:counter(step); display:grid; place-items:center; width:24px; height:24px; flex:none;
+  border-radius:50%; background:var(--ink); color:var(--page); font-size:.8125rem; font-weight:650; }
+.steps .tool { display:inline-block; margin:10px 0 6px; font-size:.75rem; font-weight:600; padding:2px 8px;
+  border-radius:6px; background:var(--wash); color:var(--ink); }
+.steps p { font-size:.875rem; color:var(--ink2); }
+
+.grid { display:grid; gap:16px; margin-top:20px; align-items:stretch; }
+@media (min-width:820px) { .grid.two { grid-template-columns:1fr 1fr; } }
+.card { padding:20px; container-type:inline-size; min-width:0; }
+
+.legend { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:12px; font-size:.8125rem; color:var(--ink2); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { flex:none; display:block; background:var(--c); }
+.legend i.k-bar { width:12px; height:10px; border-radius:2px; }
+.legend i.k-dot { width:10px; height:10px; border-radius:50%; }
+.legend i.k-tick { width:4px; height:14px; border-radius:2px; }
+
+.rows { display:grid; grid-template-columns:fit-content(40%) minmax(0, 1fr) auto; column-gap:12px; margin-top:14px; }
+.lab { font-size:.875rem; line-height:1.3; color:var(--ink2); align-self:center; padding:3px 0; }
+.lab.em { color:var(--ink); font-weight:600; }
+.plot { position:relative; align-self:stretch;
+  background-image:linear-gradient(to right, var(--grid) 1px, transparent 1px);
+  background-size:calc(100% / var(--n)) 100%; box-shadow:inset -1px 0 0 var(--grid); }
+.plot > * { position:absolute; transform:translateY(-50%); }
+.bar { height:12px; background:var(--c); border-radius:0 4px 4px 0; min-width:2px; }
+.range { height:2px; background:var(--c); border-radius:1px; }
+.link { height:2px; background:var(--axis); }
+.dot { width:10px; height:10px; border-radius:50%; background:var(--c); box-shadow:0 0 0 2px var(--surface);
+  transform:translate(-50%, -50%); }
+.dot::after, .bar::after { content:""; position:absolute; inset:-8px -4px; }
+.tick { width:4px; height:20px; background:var(--ink); transform:translate(-50%, -50%); border-radius:2px;
+  box-shadow:0 0 0 2px var(--surface); }
+.plot > .ref { top:0; bottom:0; width:1px; background:var(--axis); transform:none; }
+.plot > .ref.strong { background:var(--ink2); }
+.plot.head { background-image:none; box-shadow:none; min-height:22px; }
+.plot > .reflab { top:50%; transform:translate(-100%, -50%); padding-right:7px; font-size:.75rem; color:var(--muted);
+  white-space:nowrap; }
+.bar:hover, .dot:hover, .bar:focus-visible, .dot:focus-visible { filter:brightness(1.15); outline:2px solid var(--ink);
+  outline-offset:2px; }
+.s-a24 { --c:var(--s-a24); } .s-a22 { --c:var(--s-a22); } .s-steer { --c:var(--s-steer); }
+.s-base { --c:var(--s-base); } .s-ctl { --c:var(--s-ctl); } .s-ink { --c:var(--ink2); } .s-track { --c:var(--track); }
+.val { font-size:.8125rem; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; padding:7px 0; }
+.val span { display:block; height:16px; line-height:16px; }
+.axis { position:relative; height:24px; }
+.axis span { position:absolute; top:5px; font-size:.75rem; color:var(--muted); transform:translateX(-50%);
+  font-variant-numeric:tabular-nums; white-space:nowrap; }
+.axis span.first { transform:none; } .axis span.last { transform:translateX(-100%); }
+@container (max-width:430px) {
+  .rows { grid-template-columns:minmax(0, 1fr) auto; }
+  .lab { grid-column:1 / -1; padding:8px 0 0; }
+  .lab.empty { display:none; }
+}
+.grp { grid-column:1 / -1; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline;
+  gap:2px 16px; font-size:.875rem; font-weight:600; color:var(--ink); padding:14px 0 4px; margin-top:12px;
+  border-top:1px solid var(--grid); }
+.grp:first-child { padding-top:0; margin-top:0; border-top:0; }
+.grp span { font-size:.8125rem; font-weight:400; color:var(--ink2); }
+
+.split { display:grid; gap:20px 40px; align-items:center; margin-top:4px; }
+@container (min-width:700px) { .split { grid-template-columns:minmax(0, 1.45fr) minmax(0, 1fr); } }
+.map { display:grid; grid-template-columns:max-content minmax(0, 1fr); gap:6px 10px; margin-top:16px; align-items:center;
+  max-width:620px; }
+.map .lticks { position:relative; height:16px; font-size:.75rem; color:var(--muted); font-variant-numeric:tabular-nums; }
+.map .lticks span { position:absolute; top:0; transform:translateX(-50%); }
+.mrow { margin-top:18px; }
+.mrow:first-child { margin-top:14px; }
+.mtop { display:flex; flex-direction:column; gap:1px; }
+.mlab { font-size:.875rem; color:var(--ink2); }
+.mval { font-size:.8125rem; color:var(--muted); }
+.mval b { font-size:1.5rem; font-weight:650; letter-spacing:-.01em; color:var(--ink); margin-right:6px; }
+.mtrack { height:10px; border-radius:999px; background:var(--track); margin-top:6px; overflow:hidden; }
+.mtrack i { display:block; height:100%; min-width:4px; border-radius:999px; background:var(--c); }
+.map svg { display:block; width:100%; height:auto; }
+.map .ml { font-size:.75rem; color:var(--muted); }
+.map rect { fill:var(--track); }
+.map rect.in { fill:var(--s-a24); }
+.map rect:hover { stroke:var(--ink); stroke-width:1.5; }
+
+details.tv { margin-top:14px; font-size:.8125rem; }
+details.tv summary { cursor:pointer; color:var(--muted); width:max-content; }
+.scroll { overflow:auto; max-height:520px; margin-top:10px; border:1px solid var(--border); border-radius:10px; }
+details.tv .scroll { max-height:320px; }
+table { border-collapse:collapse; width:100%; font-size:.8125rem; }
+th, td { padding:8px 10px; text-align:left; vertical-align:top; border-bottom:1px solid var(--grid); }
+th { position:sticky; top:0; background:var(--surface); color:var(--ink2); font-weight:600; z-index:1;
+  box-shadow:0 1px 0 var(--grid); }
+tr:last-child td { border-bottom:0; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+td.num, td:first-child { white-space:nowrap; }
+#benign td:first-child { white-space:normal; }
+#benign td { min-width:180px; }
+.pill { display:inline-block; font-size:.6875rem; font-weight:600; padding:1px 7px; border-radius:999px;
+  background:var(--pill); color:var(--cost); margin-bottom:4px; }
+
+.tabs { display:flex; flex-wrap:wrap; gap:6px; }
+.tabs button { font:inherit; font-size:.875rem; font-weight:600; cursor:pointer; padding:7px 14px; border-radius:999px;
+  border:1px solid var(--border); background:none; color:var(--ink2); }
+.tabs button[aria-selected="true"] { background:var(--ink); color:var(--page); border-color:var(--ink); }
+.controls { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-top:14px; font-size:.875rem;
+  color:var(--ink2); }
+.controls label { display:inline-flex; align-items:center; gap:8px; }
+select { font:inherit; padding:6px 8px; border-radius:8px; border:1px solid var(--border); background:var(--surface);
+  color:var(--ink); max-width:100%; }
+[hidden] { display:none !important; }
+footer { margin-top:56px; font-size:.8125rem; color:var(--muted); }
+
+#tip { position:fixed; z-index:10; pointer-events:none; background:var(--ink); color:var(--page); border-radius:8px;
+  padding:6px 10px; font-size:.8125rem; line-height:1.35; max-width:240px; }
+#tip b { display:block; font-size:.9375rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="eyebrow">Lexsi hackathon · Track 2b · Circuit-level interventions</p>
+  <h1>A safer Tiny Aya in five languages, audited for side effects</h1>
+  <p class="dek">Two LoRA adapters make Tiny Aya Global help with fewer harmful requests. A five-part audit then
+  measures what else changed.</p>
+  <div class="links">
+    <a class="primary" target="_blank" rel="noopener"
+       href="https://huggingface.co/MdSadiqMd/tiny-aya-global-refusal-circuit-lora-fluent">Recommended adapter</a>
+    <a target="_blank" rel="noopener" href="https://huggingface.co/MdSadiqMd/tiny-aya-global-refusal-circuit-lora">First adapter</a>
+    <a target="_blank" rel="noopener" href="https://github.com/MdSadiqMd/Circuit-Steering">Code</a>
+    <a target="_blank" rel="noopener" href="https://huggingface.co/datasets/MdSadiqMd/circuit-steering-audit">Results data</a>
+  </div>
+  <div class="tiles" id="tiles"></div>
+  <p class="fine" id="tiles-note"></p>
+</header>
+
+<section>
+  <h2>How it was built</h2>
+  <ol class="steps">
+    <li><div class="t">Find</div><span class="tool">CircuitKIT</span>
+      <p>Score every attention head and MLP for refusal.</p></li>
+    <li><div class="t">Change</div><span class="tool">LoRA</span>
+      <p>Train only the top 30% of components.</p></li>
+    <li><div class="t">Compare</div><span class="tool">SafeTune</span>
+      <p>Steering as the baseline, random components as the control.</p></li>
+    <li><div class="t">Audit</div><span class="tool">AuditKIT</span>
+      <p>Ability, safety, five languages, other circuits, hidden errors.</p></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Fewer harmful answers</h2>
+  <p class="lead">Lower is better in every chart here. SafeTune steering is the baseline to beat.</p>
+  <div class="grid two">
+    <div class="card"><h3>Harmful requests answered</h3>
+      <p class="sub">Hindi, Arabic, French and Swahili</p><div id="c-harm"></div></div>
+    <div class="card"><h3>Harmless prompts refused</h3>
+      <p class="sub">Five languages: the cost of refusing more</p><div id="c-benign"></div></div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Harmful requests answered, by language</h3>
+      <p class="sub" id="lang-sub"></p><div id="c-lang"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>What the audit caught</h2>
+  <p class="lead">The first adapter kept writing after it refused, and its text got less fluent. The second adapter
+  fixes both.</p>
+  <div class="grid two">
+    <div class="card"><h3>Replies that stop at the refusal</h3>
+      <p class="sub">Share of replies to harmful requests. Higher is better.</p><div id="c-ended"></div></div>
+    <div class="card"><h3>Perplexity increase on unseen text</h3>
+      <p class="sub">Against the base model. Lower is better.</p><div id="c-ppl"></div></div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Everything else we measured</h3>
+      <p class="sub">Change from the base model in percentage points, with 95% intervals. Left of zero is worse.</p>
+      <div id="c-audit"></div>
+      <p class="fine">Accuracy on reworded facts falls about 4 points. The other checks show no clear change. Four of
+      the five audit parts were run on the adapters; the "other circuits" part was run only on the earlier runs.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Is it the circuit? No.</h2>
+  <p class="lead">The same adapter trained on random components does just as well.</p>
+  <div class="grid">
+    <div class="card"><h3>Circuit, random or all components: the same result</h3>
+      <p class="sub">Harmful requests answered outside English. Each dot is one training run. Lower is better.</p>
+      <div id="c-cond"></div></div>
+    <div class="card"><h3>The circuit is not small</h3>
+      <p class="sub">The top 30% of components by refusal score, the set both adapters were trained on.</p>
+      <div class="split"><div id="c-map"></div><div id="c-facts"></div></div>
+      <div id="c-map-table"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Two warnings for anyone testing model edits</h2>
+  <div class="grid two">
+    <div class="card"><h3>Passing the usual check is not enough</h3>
+      <p class="sub">Share of runs that pass the usual side-effect check and are still damaged.</p>
+      <div id="c-std"></div>
+      <p class="fine">Usual check: perplexity within 5% and MMLU within 5 points. Damaged: something we audit moved
+      by 10 points or more. The 10-point line was set after the study.</p>
+      <div id="c-std-table"></div></div>
+    <div class="card"><h3>Counting refusal phrases overstates the language gap</h3>
+      <p class="sub">Gap between English and Hindi on the base model, in percentage points.</p>
+      <div id="c-gap"></div><div id="c-gap-table"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>The data</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="t-benign" aria-selected="true">Harmless prompts, before and after</button>
+        <button role="tab" data-tab="t-runs" aria-selected="false">All adapter runs</button>
+        <button role="tab" data-tab="t-earlier" aria-selected="false">393 earlier runs</button>
+      </div>
+      <div id="t-benign">
+        <div class="controls">
+          <label>Adapter <select id="run"><option value="a24">Second (recommended)</option>
+            <option value="a22">First</option></select></label>
+          <label>Language <select id="lang"></select></label>
+          <label><input type="checkbox" id="changed"> Only where the refusal changed</label>
+          <span id="benign-count"></span>
+        </div>
+        <div class="scroll" id="benign"></div>
+      </div>
+      <div id="t-runs" hidden>
+        <p class="sub" style="margin-top:14px">Mean over training seeds.</p>
+        <div class="scroll" id="runs"></div>
+      </div>
+      <div id="t-earlier" hidden>
+        <div class="controls">
+          <label>Behaviour <select id="beh"><option value="b1">Correcting false facts</option>
+            <option value="b2">Strengthening refusal</option></select></label>
+        </div>
+        <div class="scroll" id="scorecard"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Stored results only: no model runs on this page. Replies to harmful requests are not published.</footer>
+</main>
+<div id="tip" hidden></div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById("data").textContent);
+const $ = (id) => document.getElementById(id);
+const NAME = { base: "Base model", steer: "SafeTune steering", a22: "First adapter", a24: "Second adapter" };
+const pct = (v) => v.toFixed(1) + "%";
+const signed = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1);
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function table(head, rows, numeric) {
+  const wrap = el("div", "scroll"), t = el("table");
+  [head, ...rows].forEach((r, i) => {
+    const tr = t.insertRow();
+    r.forEach((c, j) => {
+      const cell = el(i ? "td" : "th", numeric && j ? "num" : "", c === null || c === undefined ? "" : String(c));
+      tr.appendChild(cell);
+    });
+  });
+  wrap.appendChild(t);
+  return wrap;
+}
+function legend(items) {
+  const box = el("div", "legend");
+  items.forEach(([series, shape, text]) => {
+    const s = el("span"), i = el("i", "k-" + shape + " s-" + series);
+    s.append(i, text);
+    box.appendChild(s);
+  });
+  return box;
+}
+// One row per label on a shared horizontal axis. Marks are positioned in percent of the plot width,
+// labels and values are ordinary text cells, so nothing can overlap at any width.
+function chart(host, spec) {
+  const x = (v) => ((v - spec.min) / (spec.max - spec.min)) * 100;
+  if (spec.legend) host.appendChild(legend(spec.legend));
+  const g = el("div", "rows");
+  g.style.setProperty("--n", Math.round((spec.max - spec.min) / spec.step));
+  let refLabel = (spec.refs || []).find((r) => r[2]);
+  spec.rows.forEach((r) => {
+    if (r.group) {
+      const h = el("div", "grp", r.group);
+      if (r.note) h.appendChild(el("span", "", r.note));
+      g.appendChild(h);
+      if (refLabel) {  // the reference line gets its name once, above the first rows
+        const head = el("div", "plot head"), line = el("div", "ref " + (refLabel[1] || ""));
+        const text = el("span", "reflab", refLabel[2]);
+        line.style.left = text.style.left = x(refLabel[0]) + "%";
+        head.append(line, text);
+        g.append(el("div", "lab empty"), head, el("div", "val"));
+        refLabel = null;
+      }
+      return;
+    }
+    g.appendChild(el("div", "lab" + (r.em ? " em" : ""), r.label));
+    const p = el("div", "plot");
+    p.style.minHeight = (r.lanes || 1) * 16 + 14 + "px";
+    (spec.refs || []).forEach(([v, cls]) => {
+      const d = el("div", "ref " + (cls || ""));
+      d.style.left = x(v) + "%";
+      p.appendChild(d);
+    });
+    r.marks.forEach((m) => {
+      const d = el("div", m.t + (m.s ? " s-" + m.s : ""));
+      d.style.top = 15 + 16 * (m.lane || 0) + (m.dy || 0) + "px";
+      if (m.v !== undefined) d.style.left = x(m.v) + "%";
+      else {
+        d.style.left = x(Math.min(m.a, m.b)) + "%";
+        d.style.width = Math.abs(x(m.b) - x(m.a)) + "%";
+      }
+      if (m.tip) { d.dataset.tip = m.tip; d.tabIndex = 0; }
+      p.appendChild(d);
+    });
+    g.appendChild(p);
+    const v = el("div", "val");
+    (r.vals || []).forEach((t) => v.appendChild(el("span", "", t)));
+    g.appendChild(v);
+  });
+  g.appendChild(el("div", "lab empty"));
+  const ax = el("div", "axis"), n = Math.round((spec.max - spec.min) / spec.step);
+  for (let i = 0; i <= n; i += spec.every || 1) {
+    const s = el("span", i === 0 ? "first" : i === n ? "last" : "", spec.fmt(spec.min + i * spec.step));
+    s.style.left = (i / n) * 100 + "%";
+    ax.appendChild(s);
+  }
+  g.append(ax, el("div", "val"));
+  host.appendChild(g);
+  if (spec.table) {
+    const d = el("details", "tv");
+    d.append(el("summary", "", "Table"), table(spec.table[0], spec.table.slice(1), true));
+    host.appendChild(d);
+  }
+}
+const percent = (v) => v + "%";
+// A name, a figure and a bar per row, each against its own whole.
+function meters(host, rows) {
+  rows.forEach((r) => {
+    const row = el("div", "mrow"), top = el("div", "mtop"), val = el("div", "mval");
+    const track = el("div", "mtrack"), fill = el("i", "s-" + r.s);
+    val.append(el("b", "", r.value), r.detail);
+    top.append(el("span", "mlab", r.label), val);
+    fill.style.width = r.share + "%";
+    track.appendChild(fill);
+    track.dataset.tip = r.value + "|" + r.label + ": " + r.detail;
+    row.append(top, track);
+    host.appendChild(row);
+  });
+}
+function tableView(host, head, rows) {
+  const d = el("details", "tv");
+  d.append(el("summary", "", "Table"), table(head, rows, true));
+  host.appendChild(d);
+}
+
+const [base, , , second] = D.methods;
+const times = (v) => v.toFixed(2) + "×";
+// label, metric, formatter, whether the change is toned as good or as a cost (lower is better for all four)
+[
+  ["Harmful requests answered, outside English", "comply_xl", pct, true],
+  ["Harmful requests answered, English", "comply_en", pct, true],
+  ["Harmless prompts refused", "benign", pct, true],
+  ["Perplexity on English text", "ppl", times, false],
+].forEach(([k, key, fmt, toned]) => {
+  const now = second[key], was = base[key], t = el("div", "tile"), d = el("div", "d");
+  d.append(el("b", toned ? (now < was ? "good" : "cost") : "", now > was ? "▲ " : "▼ "), "from " + fmt(was));
+  t.append(el("div", "k", k), el("div", "v", fmt(now)), d);
+  $("tiles").appendChild(t);
+});
+$("tiles-note").textContent = "Second adapter, the released run. " + D.n + " held-out harmful requests per language, " +
+  "read by an LLM judge. Two of the three harm categories were never trained on.";
+
+function methodBars(id, key, max) {
+  chart($(id), {
+    min: 0, max, step: 5, fmt: percent,
+    rows: D.methods.map((m) => ({
+      label: m.name, vals: [pct(m[key])],
+      marks: [{ t: "bar", a: 0, b: m[key], s: m.key, tip: pct(m[key]) + "|" + m.name }],
+    })),
+    table: [["Method", "Share"], ...D.methods.map((m) => [m.name, pct(m[key])])],
+  });
+}
+methodBars("c-harm", "comply_xl", 15);
+methodBars("c-benign", "benign", 20);
+
+const SERIES3 = ["base", "a22", "a24"];
+$("lang-sub").textContent = "Share of " + D.n + " test requests in each language.";
+chart($("c-lang"), {
+  min: 0, max: 20, step: 5, fmt: percent,
+  legend: SERIES3.map((s) => [s, "dot", NAME[s]]),
+  rows: D.langs.map((l) => {
+    const v = D.by_lang[l], all = SERIES3.map((s) => v[s]);
+    return {
+      label: D.names[l],
+      marks: [{ t: "link", a: Math.min(...all), b: Math.max(...all) },
+        ...SERIES3.map((s) => ({ t: "dot", v: v[s], s, tip: pct(v[s]) + "|" + D.names[l] + ", " + NAME[s].toLowerCase() }))],
+    };
+  }),
+  table: [["Language", ...SERIES3.map((s) => NAME[s])],
+    ...D.langs.map((l) => [D.names[l], ...SERIES3.map((s) => pct(D.by_lang[l][s]))])],
+});
+
+function pairBars(id, src, max, step, show) {
+  chart($(id), {
+    min: 0, max, step, fmt: percent,
+    legend: [["a22", "bar", NAME.a22], ["a24", "bar", NAME.a24]],
+    rows: D.langs.map((l) => ({
+      label: D.names[l], lanes: 2, vals: [show(src.a22[l]), show(src.a24[l])],
+      marks: ["a22", "a24"].map((s, i) => ({
+        t: "bar", a: 0, b: src[s][l], s, lane: i, tip: show(src[s][l]) + "|" + D.names[l] + ", " + NAME[s].toLowerCase(),
+      })),
+    })),
+    table: [["Language", NAME.a22, NAME.a24], ...D.langs.map((l) => [D.names[l], show(src.a22[l]), show(src.a24[l])])],
+  });
+}
+pairBars("c-ended", D.ended, 100, 25, (v) => v.toFixed(0) + "%");
+pairBars("c-ppl", D.ppl_rise, 50, 10, (v) => "+" + v.toFixed(1) + "%");
+
+chart($("c-audit"), {
+  min: -20, max: 20, step: 10, fmt: (v) => signed(v).replace(".0", ""), refs: [[0, "strong"]],
+  legend: [["a22", "dot", NAME.a22], ["a24", "dot", NAME.a24]],
+  rows: D.audit.map((r) => ({
+    label: r.name, lanes: 2, vals: [signed(r.a22[2]), signed(r.a24[2])],
+    marks: ["a22", "a24"].flatMap((s, i) => {
+      const [, , d, lo, hi] = r[s];
+      const tip = signed(d) + " points|" + r.name + ", " + NAME[s].toLowerCase() + " (" + signed(lo) + " to " + signed(hi) + ")";
+      return [{ t: "range", a: lo, b: hi, s, lane: i }, { t: "dot", v: d, s, lane: i, tip }];
+    }),
+  })),
+  table: [["Check", "Base", NAME.a22, "95% interval", NAME.a24, "95% interval"],
+    ...D.audit.map((r) => [r.name, pct(r.a22[0]), signed(r.a22[2]), signed(r.a22[3]) + " to " + signed(r.a22[4]),
+      signed(r.a24[2]), signed(r.a24[3]) + " to " + signed(r.a24[4])])],
+});
+
+const C = D.circuit, nHeads = C.heads.reduce((a, h) => a + h.length, 0);
+(function circuitMap(host) {
+  const SVG = "http://www.w3.org/2000/svg", P = 14, S = 12;
+  const grid = (nRows, inCircuit, what) => {
+    const svg = document.createElementNS(SVG, "svg");
+    svg.setAttribute("viewBox", "0 0 " + (36 * P - 2) + " " + (nRows * P - 2));
+    svg.setAttribute("role", "img");
+    for (let layer = 0; layer < 36; layer++) for (let r = 0; r < nRows; r++) {
+      const c = document.createElementNS(SVG, "rect"), on = inCircuit(layer, r);
+      c.setAttribute("x", layer * P); c.setAttribute("y", r * P);
+      c.setAttribute("width", S); c.setAttribute("height", S); c.setAttribute("rx", 2.5);
+      if (on) c.setAttribute("class", "in");
+      c.dataset.tip = (on ? "In the circuit" : "Not in the circuit") + "|Layer " + layer + ", " + what(r);
+      svg.appendChild(c);
+    }
+    return svg;
+  };
+  host.appendChild(legend([["a24", "bar", "In the circuit"], ["track", "bar", "Not in the circuit"]]));
+  const m = el("div", "map"), ticks = el("div", "lticks");
+  const heads = grid(16, (l, h) => C.heads[l].includes(h), (h) => "head " + h);
+  heads.setAttribute("aria-label", "Attention heads in the circuit, by layer");
+  const mlps = grid(1, (l) => C.mlps.includes(l), () => "MLP");
+  mlps.setAttribute("aria-label", "MLPs in the circuit, by layer");
+  for (let l = 0; l < 36; l += 5) {  // centred under the layer's column
+    const t = el("span", "", String(l));
+    t.style.left = ((l * P + S / 2) / (36 * P - 2)) * 100 + "%";
+    ticks.appendChild(t);
+  }
+  m.append(el("span", "ml", "16 heads"), heads, el("span", "ml", "MLP"), mlps, el("span", "ml", "Layer"), ticks);
+  host.appendChild(m);
+})($("c-map"));
+const [trained, trainable] = D.trained, M = (n) => (n / 1e6).toFixed(1) + " M";
+meters($("c-facts"), [
+  { label: "Attention heads in the circuit", value: Math.round((100 * nHeads) / 576) + "%", detail: nHeads + " of 576",
+    share: (100 * nHeads) / 576, s: "a24" },
+  { label: "MLPs in the circuit", value: Math.round((100 * C.mlps.length) / 36) + "%", detail: C.mlps.length + " of 36",
+    share: (100 * C.mlps.length) / 36, s: "a24" },
+  { label: "Weights trained, against a full adapter", value: Math.round((100 * trained) / trainable) + "%",
+    detail: M(trained) + " of " + M(trainable), share: (100 * trained) / trainable, s: "a24" },
+]);
+tableView($("c-map-table"), ["Layer", "Heads in the circuit (of 16)", "MLP"],
+  C.heads.map((h, l) => [l, h.length, C.mlps.includes(l) ? "yes" : "no"]));
+
+const mean = (c) => c.seeds.reduce((a, x) => a + x[1], 0) / c.seeds.length;
+const versus = ([d, pv]) => "Circuit answers " + Math.abs(d).toFixed(1) + " points " + (d > 0 ? "more" : "fewer") +
+  " than random 30% (p = " + pv.toFixed(2) + ")";
+chart($("c-cond"), {
+  min: 0, max: 15, step: 5, fmt: percent, refs: [[base.comply_xl, "", "Base model " + pct(base.comply_xl)]],
+  legend: [["a22", "dot", "Circuit run, first adapter"], ["a24", "dot", "Circuit run, second adapter"],
+    ["ctl", "dot", "Control run"], ["ink", "tick", "Mean of the runs"]],
+  rows: ["a22", "a24"].flatMap((run) => [
+    { group: NAME[run] + " recipe", note: versus(D.versus_random[run]) },
+    ...D.conditions[run].map((c) => ({
+      label: c.name, em: c.circuit, vals: [pct(mean(c))],
+      marks: [...c.seeds.map(([seed, v], j) => ({
+        t: "dot", v, s: c.circuit ? run : "ctl", dy: (j % 3 - 1) * 6, tip: pct(v) + "|" + c.name + ", seed " + seed,
+      })), { t: "tick", v: mean(c) }],
+    }))]),
+  table: [["Recipe", "Components trained", "Runs", "Mean", "Each run"],
+    ...["a22", "a24"].flatMap((run) => D.conditions[run].map((c) => [NAME[run], c.name, c.seeds.length, pct(mean(c)),
+      c.seeds.map((x) => pct(x[1])).join(", ")]))],
+});
+
+const STD = [["Real interventions", D.standard.real, "ink"], ["Random noise of the same size", D.standard.noise, "ctl"]];
+meters($("c-std"), STD.map(([label, [passed, damaged], series]) => ({
+  label, value: Math.round((100 * damaged) / passed) + "%", detail: damaged + " of " + passed + " runs",
+  share: (100 * damaged) / passed, s: series,
+})));
+tableView($("c-std-table"), ["Kind", "Pass the usual check", "Of those, damaged"],
+  STD.map(([label, [passed, damaged]]) => [label, passed, damaged]));
+
+const GAP = [["Refusals, counted by phrases", D.gap.phrase], ["Refusals, read by a judge", D.gap.judge],
+  ["Harmful requests answered", D.gap.comply]];
+const points = (en, hi) => Math.abs(en - hi).toFixed(1) + " pts";
+meters($("c-gap"), GAP.map(([label, [en, hi]]) => ({
+  label, value: points(en, hi), detail: "English " + pct(en) + " · Hindi " + pct(hi), share: Math.abs(en - hi), s: "ink",
+})));
+tableView($("c-gap-table"), ["Measure", "English", "Hindi", "Gap"],
+  GAP.map(([label, [en, hi]]) => [label, pct(en), pct(hi), points(en, hi)]));
+
+D.langs.forEach((l) => { const o = el("option", "", D.names[l]); o.value = l; $("lang").appendChild(o); });
+$("lang").value = "hi";
+function benign() {
+  const all = D.benign[$("run").value][$("lang").value];
+  const rows = $("changed").checked ? all.filter((r) => r[3] !== r[4]) : all;
+  const t = el("table"), head = t.insertRow();
+  ["Prompt", "Base model", $("run").selectedOptions[0].textContent + " adapter"].forEach((h) => head.appendChild(el("th", "", h)));
+  rows.forEach(([prompt, before, after, was, now]) => {
+    const tr = t.insertRow();
+    tr.appendChild(el("td", "", prompt));
+    [[before, was], [after, now]].forEach(([reply, refused]) => {
+      const td = el("td");
+      if (refused === "yes") td.append(el("span", "pill", "Refused"), el("br"));
+      td.append(reply);
+      tr.appendChild(td);
+    });
+  });
+  $("benign").replaceChildren(t);
+  $("benign-count").textContent = rows.length + " of " + all.length + " prompts";
+}
+["run", "lang", "changed"].forEach((id) => $(id).addEventListener("change", benign));
+benign();
+$("runs").replaceChildren(...table(D.runs_table[0], D.runs_table.slice(1), true).children);
+const card = () => {
+  const rows = D.scorecard[$("beh").value];
+  $("scorecard").replaceChildren(...table(rows[0], rows.slice(1), true).children);
+};
+$("beh").addEventListener("change", card);
+card();
+document.querySelectorAll(".tabs button").forEach((btn) => btn.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach((b) => {
+    b.setAttribute("aria-selected", String(b === btn));
+    $(b.dataset.tab).hidden = b !== btn;
+  });
+}));
+
+const tip = $("tip");
+function showTip(e) {
+  const t = e.target.closest && e.target.closest("[data-tip]");
+  if (!t) return;
+  const [value, label] = t.dataset.tip.split("|");
+  tip.replaceChildren(el("b", "", value), label || "");
+  tip.hidden = false;
+  const r = t.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + "px";
+  tip.style.top = (r.top - h - 10 < 8 ? r.bottom + 10 : r.top - h - 10) + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+document.addEventListener("pointerover", showTip);
+document.addEventListener("focusin", showTip);
+document.addEventListener("pointerout", hideTip);
+document.addEventListener("focusout", hideTip);
+document.addEventListener("scroll", hideTip, true);
+</script>
+</body>
+</html>

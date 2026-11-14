@@ -11,6 +11,7 @@ from aya_circuits.overlap import jaccard, weighted_jaccard
 from neb.judge import refused
 
 from data.filter_model import matches
+from data.push_hf import circuit_table
 from data.sanitize import leaks, strip_audit, strip_baseline_row
 from interventions.cell import Cell, delta_norm
 from interventions.perturb import perturbed
@@ -218,3 +219,20 @@ def test_tost_and_sample_size():
         r["ci90"][0] < r["ci95"][0] < 0 < r["ci95"][1] < r["ci90"][1] or r["ci95"][0] < r["ci90"][0]
     )
     assert n_required(0.1, 32, 0.05) > 32 > n_required(0.005, 32, 0.05)
+
+
+def test_circuit_table_ranks_components_within_a_run(tmp_path):
+    run = tmp_path / "b2_en" / "seed1"
+    run.mkdir(parents=True)
+    nodes = {
+        "names": ["input", "A0.0", "A20.4", "MLP 20"],
+        "abs_scores": {"A0.0": 0.1, "A20.4": 0.7, "MLP 20": 0.3},
+        "signed_rowsum": [9.0, -0.1, 0.5, -0.2],
+    }
+    (run / "nodes.json").write_text(json.dumps(nodes))
+    rows = circuit_table(tmp_path).read_text().splitlines()
+    assert rows[1:] == [
+        "b2_en,1,A20.4,head,20,0.7,0.5,1",
+        "b2_en,1,MLP 20,mlp,20,0.3,-0.2,2",
+        "b2_en,1,A0.0,head,0,0.1,-0.1,3",
+    ]
