@@ -1,5 +1,5 @@
 # Recipes for the circuit-steering study; `just` lists them. Every recipe runs from this directory,
-# with the two sibling repos next to it (README, "Repository layout").
+# with the two sibling repos next to it (README, "Run the study").
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set positional-arguments := true
