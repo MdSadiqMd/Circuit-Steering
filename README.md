@@ -2,47 +2,57 @@
 
 Controlled test of circuit-targeted interventions on `CohereLabs/tiny-aya-global`: activation steering,
 circuit-restricted LoRA and knowledge editing confined to the components an EAP-IG circuit points to,
-compared against size-matched random, inverse, Taylor and unrestricted conditions, with a five-layer
+compared against size-matched random, inverse, Taylor and unrestricted conditions, with a five-part
 **Nothing-Else-Broke audit** (behavioural, safety, cross-lingual in en/hi/ar/fr/sw, mechanistic
 cross-circuit CAD, hidden failures). Built on Lexsi's CircuitKIT, AuditKIT and SafeTune.
 
-**Start here:** the write-up is `docs/article.md` (abstract: `docs/abstract.md`); the numbers behind
-it are in `docs/results/a22_b2.md`, `a24_b2.md` and `standard_checks.md`.
+**Start here:** the write-up is `docs/article.md` (abstract: `docs/abstract.md`, form answers:
+`docs/submission.md`); the numbers behind it are in `docs/results/a22_b2.md`, `a24_b2.md` and
+`standard_checks.md`. In the code and result files the first adapter is `a22` and the second `a24`.
 
 ## Headline results
 
-Held-out test prompts (159 harmful per language, two of three harm categories unseen in training;
-59 benign near-miss per language), harmful compliance by an LLM judge that reads the reply:
+Held-out test prompts: 159 harmful per language (two of the three harm categories never trained
+on) and 59 harmless look-alikes per language. Harmful compliance is decided by an LLM judge that
+reads the reply.
 
-| | base | A22 adapter | A24 adapter | SafeTune steering |
+| | base | first adapter | second adapter | SafeTune steering |
 |---|---|---|---|---|
-| harmful compliance, hi/ar/fr/sw | 12.4 % | 3.8 % | 7.1 % | 8.8 % |
+| harmful compliance, Hindi / Arabic / French / Swahili | 12.4 % | 3.8 % | 7.1 % | 8.8 % |
 | harmful compliance, English | 8.8 % | 1.9 % | 4.4 % | 3.8 % |
-| benign refusal, 5 languages | 3.1 % | 8.8 % | 6.1 % | 15.3 % |
-| WikiText perplexity | 1.00× | 1.26× | 1.02× | 1.04× |
-| perplexity, 5 languages, unseen text | 1.00× | 1.40× | 1.02× | 1.04× |
-| refusals that end the turn, hi/ar/fr/sw | – | 32 / 2 / 11 / 1 % | 87 / 87 / 84 / 91 % | – |
+| refusal of harmless look-alikes, 5 languages | 3.1 % | 8.8 % | 6.1 % | 15.3 % |
+| perplexity, WikiText | 1.00× | 1.26× | 1.02× | 1.04× |
+| perplexity, unseen text in 5 languages | 1.00× | 1.40× | 1.02× | 1.04× |
+| replies to harmful prompts that are only the refusal, hi / ar / fr / sw | – | 32 / 2 / 11 / 1 % | 87 / 87 / 84 / 91 % | – |
 
-- **The adapters make the model safer** (A22: −8.6 points outside English, 95 % CI −11.2 to −6.3;
-  A24: −5.3, −7.7 to −3.1; over three seeds 5.9 % and 6.6 %) and beat a dev-tuned SafeTune
-  refusal-direction baseline on compliance and on over-refusal.
-- **The audit found two defects in our own first adapter** (perplexity +26 %, refusals that never
-  end the turn); A24 fixes both. A23, an intermediate fix, was stopped by its own checkpoint rule.
-- **The circuit restriction does not matter**: adapters on random components of the same size
-  differ by 0.2–0.7 points (A24: CI includes 0). The 30 % refusal circuit holds 35 of 36 MLPs.
-- **The usual sanity check misses damage**: of the 92 main-study cells that pass "perplexity
-  within 5 %, MMLU within 5 points", 31 moved an audited quantity by ≥ 10 points (random noise of
-  the same size: 2 of 68).
-- **Regex refusal detectors overstate the multilingual gap**: 42 points between English and Hindi
-  by regex, 2.5 points of compliance by the judge.
-- Costs that remain: 3–6 points of benign over-refusal (15–17 in Swahili), 3.5 points on
-  paraphrased facts. A rule fixed in advance keeps A22 as the primary release; both are published.
+- **The adapters make the model safer.** First adapter: −8.6 points outside English (95 % CI −11.2
+  to −6.3). Second: −5.3 (−7.7 to −3.1). Over three seeds they average 5.9 % and 6.6 %.
+- **Against SafeTune's refusal-direction steering** (strength tuned on the same dev split, one
+  run): the first adapter is better on compliance (−5.0 points, CI −7.2 to −3.0) and on harmless
+  refusals. The second is about level on compliance and refuses far fewer harmless prompts.
+- **The audit found two defects in our first adapter**: perplexity +26 %, and outside English it
+  usually kept writing after refusing. The second adapter fixes both.
+- **The circuit is not why it works.** Adapters on random components of the same size differ by
+  0.2–0.7 points. The 30 % refusal circuit holds 33–35 of the model's 36 MLPs.
+- **The usual side-effect check is too weak.** Of the 92 earlier interventions that pass
+  "perplexity within 5 %, MMLU within 5 points", 31 moved something we audit by ≥ 10 points
+  (random noise of the same size: 2 of 68). The threshold was chosen after the study.
+- **Counting refusal phrases misleads outside English.** Our phrase detector shows a 41.5-point
+  refusal gap between English and Hindi; the judge finds 23 points, and 2.5 points in compliance.
+- **Costs that remain**: harmless prompts are refused 3–6 points more often (15–17 in Swahili) and
+  accuracy on reworded facts falls 3.5–4 points. A rule fixed in advance keeps the first adapter as
+  the official release; both are published and we recommend the second.
 
 - Spec: `docs/project-brief.md` · plan: `docs/plan.md` · pre-registration: `docs/preregistration.md`
 - API discrepancies and measurements: `docs/notes.md` · decisions: `docs/decisions.md`
 - Layout: three sibling repos in one folder; this one's folders are listed under "Repository layout".
 - Next experiments (the plan after A21, with context): `docs/next-experiments.md`
 - Toolkit defects found, ready to file: `docs/upstream-issues.md` · model cards: `docs/model_cards/`
+- On Hugging Face: [models and demo](https://huggingface.co/collections/MdSadiqMd/circuit-steering-on-tiny-aya-models-and-demo-6af87a1b0a621b28feed3bf7)
+  · [datasets and logs](https://huggingface.co/collections/MdSadiqMd/circuit-steering-on-tiny-aya-datasets-and-logs-6af87a1cee0c921b998574ef).
+  The built refusal sets (`data/b2/`, `data/a22/`) contain harmful prompt text, so they are not in
+  this repo; they are in the dataset
+  [`circuit-steering-data`](https://huggingface.co/datasets/MdSadiqMd/circuit-steering-data).
 
 ## Repository layout (three repos, one pipeline)
 ```
@@ -193,7 +203,7 @@ uv run python interventions/run_grid.py grid.behaviour=b1 grid.intervention=edit
 uv run python interventions/refusal_direction.py                                   # SafeTune baseline (B2)
 uv run python audit/run_audit.py grid.behaviour=b1 && uv run python audit/analyze.py grid.behaviour=b1
 just chain full                           # or everything above as one resumable chain
-JUDGE_GGUF=/path/to/chat-model.gguf just chain a22   # refusal adapter, controls, test, audit, LLM judge
+JUDGE_GGUF=/path/to/chat-model.gguf just chain a22   # refusal adapter, controls, test, audit, LLM judge (we used Qwen3.8-27B, Q5_K_M)
 JUDGE_GGUF=/path/to/chat-model.gguf just chain a24   # the fluency-preserving adapter (needs a22)
 uv run python interventions/export_peft.py cell=runs/a24/interventions/b2/lora/circuit30_s0 \
     to=runs/a24/release/tiny-aya-global-refusal-circuit-lora   # PEFT adapter + parity check
