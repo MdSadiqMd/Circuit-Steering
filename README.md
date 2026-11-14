@@ -12,6 +12,24 @@ English, Hindi, Arabic, French and Swahili, built on Lexsi's CircuitKIT, SafeTun
 [Datasets](https://huggingface.co/collections/MdSadiqMd/circuit-steering-on-tiny-aya-datasets-and-logs-6af87a1cee0c921b998574ef) ·
 [Full report](docs/report.md)
 
+## Contents
+
+- [The short version](#the-short-version)
+- [Results](#results)
+  - [The audit found two defects](#the-audit-found-two-defects)
+  - [The circuit is not why it works](#the-circuit-is-not-why-it-works)
+  - [Two warnings for anyone who edits models](#two-warnings-for-anyone-who-edits-models)
+- [Limits](#limits)
+- [Use the adapter](#use-the-adapter)
+- [Run it yourself](#run-it-yourself)
+  - [Check the install](#check-the-install) (2 minutes, no model)
+  - [Run the whole pipeline once](#run-the-whole-pipeline-once) (about an hour, one command)
+  - [Reproduce the full study](#reproduce-the-full-study)
+- [How the Lexsi toolkits are used](#how-the-lexsi-toolkits-are-used)
+- [The earlier study: 393 runs](#the-earlier-study-393-runs)
+- [Documents](#documents)
+- [Licence](#licence)
+
 ![Harmful requests answered in five languages and harmless prompts refused, for the base model, SafeTune steering and the two adapters](docs/figures/readme/results.png)
 
 ## The short version
@@ -123,6 +141,13 @@ adapter = "MdSadiqMd/tiny-aya-global-refusal-circuit-lora-fluent"
 tok = AutoTokenizer.from_pretrained(base)
 model = AutoModelForCausalLM.from_pretrained(base, dtype="bfloat16")
 model = PeftModel.from_pretrained(model, adapter)
+
+chat = [{"role": "user", "content": "What is the capital of Kenya?"}]
+inputs = tok.apply_chat_template(
+    chat, add_generation_prompt=True, return_tensors="pt", return_dict=True
+)
+reply = model.generate(**inputs, max_new_tokens=30)[0]
+print(tok.decode(reply[inputs["input_ids"].shape[1] :], skip_special_tokens=True))
 ```
 
 This is the second adapter, which we recommend for its fluency. By a rule we fixed before
@@ -132,7 +157,7 @@ official release: the second answers 3.3 points more harmful requests on its run
 allowed 3.0. Do not merge either into the model. Merging into bf16 weights rounds 31 to 43 % of
 the change to zero.
 
-## Run the study
+## Run it yourself
 
 The study is three repos that sit side by side in one folder.
 
@@ -142,19 +167,74 @@ The study is three repos that sit side by side in one folder.
 | [`tiny-aya-circuits`](https://github.com/MdSadiqMd/tiny-aya-circuits) | Finds circuits with CircuitKIT and tests them against random components |
 | [`bystander-circuits`](https://github.com/MdSadiqMd/bystander-circuits) | The five-part "Nothing-Else-Broke" audit (package `neb`) |
 
+Both steps below were run on 2026-11-15 from a fresh clone of the three repos, on an Apple-silicon
+Mac with 48 GB.
+
+### Check the install
+
+Two minutes, no model and no GPU.
+
 ```bash
 git clone https://github.com/MdSadiqMd/Circuit-Steering circuit-steering
 git clone https://github.com/MdSadiqMd/tiny-aya-circuits
 git clone https://github.com/MdSadiqMd/bystander-circuits nothing-else-broke
 cd circuit-steering
 uv sync --locked      # Python 3.12 and both sibling packages
-just check            # lint, tests, leak scan; needs no model
+just check            # lint, tests, leak scan, the plan of every chain
 ```
 
-`just` lists every recipe. Two things are not in git:
+You should see `113 passed, 1 skipped` and `no leaks`, and no error. The skipped test needs the
+refusal sets, which the next step downloads. `just` lists every recipe.
 
-- The built refusal sets (`data/b2/`, `data/a22/`) contain harmful prompt text. Download them
-  from [`circuit-steering-data`](https://huggingface.co/datasets/MdSadiqMd/circuit-steering-data).
+### Run the whole pipeline once
+
+One command runs every step of the study once, on one seed, at the study's real settings. It
+took 62 minutes.
+
+```bash
+# the model is gated: accept the Tiny Aya licence on the Hub first
+hf auth login         # or: export HF_TOKEN=...
+just chain demo
+```
+
+| Stage | What it does | Time |
+|---|---|---|
+| Fetch | Downloads the refusal sets from the Hub and checks every file's hash, then the public benchmarks the audit reads | seconds |
+| Find | CircuitKIT finds the refusal circuit (EAP-IG) | 3 min |
+| Change | Trains the second adapter on the circuit, then again on random components of the same size | 25 min |
+| Test | The base model and both adapters answer the held-out harmful and harmless prompts in five languages | 12 min |
+| Audit | Facts, MMLU, MGSM, IFEval, perplexity and hidden failures, before and after | 19 min |
+| Fluency | Perplexity on unseen sentences in five languages | 2 min |
+| Analyze | Writes the report `docs/results/demo_b2.md` | seconds |
+
+It ends with `=== done`, and the report should read:
+
+| | Harmful requests refused, outside English | Harmful requests refused, English | Harmless prompts refused | Perplexity, five languages |
+|---|---|---|---|---|
+| Base model | 58.0 % | 81.1 % | 3.1 % | 1.00× |
+| Adapter on the circuit | 88.5 % | 94.3 % | 6.1 % | 1.02× |
+| Adapter on random components | 88.8 % | 94.3 % | 6.1 % | 1.02× |
+
+In our run the circuit adapter's three refusal rates were identical to the study's own seed-0
+run, and every other number was within about 1 point of it.
+
+- **These are refusal rates counted by phrases**, not the "harmful requests answered" of the
+  Results table. That number needs the LLM judge, a 20 GB local model, which this run leaves out.
+- **Memory:** the run peaked at 29 GB. On an NVIDIA GPU add `device=cuda`
+  (`just chain demo device=cuda`); we have not run these stages on CUDA ourselves.
+- **Safe to repeat:** a stage skips outputs that exist. It writes `runs/demo/` and
+  `runs/circuits/b2_en/seed0/`; replies to harmful prompts stay in `.cache/private/demo/`.
+
+### Reproduce the full study
+
+`just reproduce` replays every chain in the order it was first run: the 393 earlier runs, then
+the 33 adapter runs. That is several days of compute, so we did not replay it end to end; the
+study ran one chain at a time, and `just check` verifies the plan of every chain. Two things are
+not in git:
+
+- The built refusal sets (`data/b2/`, `data/a22/`) contain harmful prompt text. `data/fetch.py`
+  downloads them from
+  [`circuit-steering-data`](https://huggingface.co/datasets/MdSadiqMd/circuit-steering-data).
 - The stored runs (`runs/`). The tables built from them are already in `docs/results/`, so run
   `just analyze` only after you have produced runs of your own.
 
@@ -163,6 +243,7 @@ just check            # lint, tests, leak scan; needs no model
 
 ```bash
 export HF_TOKEN=...                       # Cohere licence accepted on the Hub
+uv run python data/fetch.py               # the built refusal sets and the audit's benchmarks
 just smoke                                # real-model acceptance check -> checks/results/stack_check.json
 uv run python data/facts_wikidata.py && uv run python data/b1_build.py && uv run python data/b2_build.py
 uv run python data/filter_model.py && uv run python data/translate.py && uv run python data/b2_baseline.py && uv run python data/b2_eap.py
@@ -180,6 +261,9 @@ just reproduce                            # every chain in the order it was firs
 just analyze                              # every table and analysis from the stored runs (CPU)
 ```
 
+- The `data/*_build.py` lines rebuild the data sets from their sources. They need the raw
+  HarmBench, MultiJail and XSTest files in `.cache/raw/`, which no script here downloads (two of
+  them are gated). `data/fetch.py` downloads our built sets instead, so you can skip those lines.
 - Chains are `scripts/chains/NN_<name>.sh`, numbered in run order. Each one is resumable (a stage
   skips outputs that exist), stops at the first failing stage and logs to `.cache/logs/<name>.log`.
   `DRY_RUN=1 scripts/chains/NN_<name>.sh` prints the stages without running them.

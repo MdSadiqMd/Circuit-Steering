@@ -228,3 +228,6 @@ runs/
 
 # built by space/build_static.py; embeds the test prompts, published on the Hub Space only
 space/static/index.html
+
+# written by `just chain demo`
+docs/results/demo_b2.*

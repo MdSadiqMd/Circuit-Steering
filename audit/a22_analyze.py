@@ -576,7 +576,8 @@ if __name__ == "__main__":
         stem_ = f"{run_root_.name}_b2"
         L_, rows_, summary_ = report(base_, cells_, run_root_.name.upper())
         a22_csv_ = ROOT / "docs/results/a22_b2.csv"
-        if stem_ != "a22_b2" and a22_csv_.exists():
+        # the release rule compares the LLM judge's comply share, so it needs judge labels
+        if stem_ != "a22_b2" and a22_csv_.exists() and summary_["judged"]:
             extra_, summary_["release_rule"] = release_rule(rows_, a22_csv_)
             L_ += extra_
         write(L_, rows_, summary_, ROOT / "docs/results", stem_)

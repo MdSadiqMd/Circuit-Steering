@@ -227,7 +227,9 @@ def main() -> None:
         circ = CIRCUITS / f"seed{d}"
         scores = json.loads((circ / "circuit_scores.json").read_text())["node_scores"]
         scores.pop("input", None)
-        pillar = json.loads((circ / "cellset.json").read_text())["pillar_set"]["nodes"]
+        pillar = []  # only the 10 % conditions use the pillar set (aya_circuits.cellset)
+        if cond.endswith("10"):
+            pillar = json.loads((circ / "cellset.json").read_text())["pillar_set"]["nodes"]
         nodes = condition_nodes(cond, seed, scores, pillar)
         cell = Cell("b2", "lora", cond, seed, nodes)
         cell_dir = cell.dir(run_root)
